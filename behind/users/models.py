@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 
 
@@ -12,7 +12,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
 
-    id = models.BigIntegerField(primary_key=True)
+    objects = UserManager()
+
     username_validator = UnicodeUsernameValidator()
     username = models.CharField(
         max_length=20,
@@ -24,6 +25,19 @@ class User(AbstractBaseUser, PermissionsMixin):
         },
     )
     email = models.EmailField(unique=True)
-    role = models.PositiveSmallIntegerField(choices=ROLES)
+    role = models.PositiveSmallIntegerField(choices=ROLES, default=ROLES[0][0])
+    is_staff = models.BooleanField(
+        default=False,
+        help_text='Designates whether the user can log into this admin site.',
+    )
+    is_active = models.BooleanField(
+        default=True,
+        help_text=
+        'Designates whether this user should be treated as active. '
+        'Unselect this instead of deleting accounts.',
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "users"
