@@ -8,6 +8,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         (1, "job_seeker"),
         (2, "employee")
     )
+    EMAIL_FIELD = 'email'
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     id = models.BigIntegerField(primary_key=True)
     username_validator = UnicodeUsernameValidator()
