@@ -1,2 +1,5 @@
-# behind-api
-An API server that has all the business logic for Behind.
+# Behind API Server
+Features:
+* User related operations, authorization/authentication
+* Question related operations
+* TBD ...
