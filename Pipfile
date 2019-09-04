@@ -8,6 +8,9 @@ verify_ssl = true
 [packages]
 django = "*"
 social-auth-app-django = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
 
 [requires]
 python_version = "3.7"
