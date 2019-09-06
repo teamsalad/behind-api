@@ -7,7 +7,6 @@ verify_ssl = true
 
 [packages]
 django = "*"
-social-auth-app-django = "*"
 djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
