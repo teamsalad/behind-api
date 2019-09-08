@@ -1,0 +1,13 @@
+{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}안녕하세요 비하인드입니다!
+
+{{ user_display }}님 진심으로 환영합니다!
+
+생생한 재직들과의 대화를 하기 앞서, 이메일을 먼저 인증해주셔야합니다!
+
+인증하시려면, {{ activate_url }} <-- 이 링크를 클릭해주세요!
+
+{% endblocktrans %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}감사합니다!
+
+{{ site_domain }}{% endblocktrans %}
+{% endautoescape %}

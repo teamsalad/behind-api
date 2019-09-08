@@ -1,0 +1,2 @@
+{% load i18n %}
+{% blocktrans %}이메일 주소 {{email}}가 인증 완료되었습니다. 감사합니다.{% endblocktrans %}

@@ -1,0 +1,4 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}[Behind] 이메일 인증 부탁드립니다!{% endblocktrans %}
+{% endautoescape %}
