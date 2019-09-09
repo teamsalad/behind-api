@@ -33,6 +33,7 @@ EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', False)
 EMAIL_PORT = os.getenv('EMAIL_PORT', 587)
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = 'The Behind'
 
 # Application definition
 
@@ -107,6 +108,8 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'users.User'
 
+LOGIN_URL = None
+
 # Authentication & Authorization
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'users.serializers.UserDetailsSerializer',
@@ -130,6 +133,8 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_USERNAME_REQUIRED = False
 
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+
+ACCOUNT_EMAIL_SUBJECT_PREFIX = None
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

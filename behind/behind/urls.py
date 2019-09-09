@@ -13,7 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from allauth.account.views import ConfirmEmailView
+from allauth.account.views import confirm_email, email_verification_sent
+from rest_auth.registration.views import RegisterView
 from django.contrib import admin
 from django.urls import path, re_path, include
 
@@ -21,11 +22,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/docs/users/', include('rest_framework.urls')),
     path('api/v1/users/', include('rest_auth.urls')),
-    path('api/v1/users/registration/', include('rest_auth.registration.urls')),
-    re_path(r'^account-confirm-email/',
-            ConfirmEmailView.as_view(),
-            name='account_email_verification_sent'),
-    re_path(r'^api/v1/users/registration/account-confirm-email/(?P<key>[-:\w]+)/$',
-            ConfirmEmailView.as_view(),
+    path('api/v1/users/registration/', RegisterView.as_view(), name='rest_register'),
+    path('api/v1/users/registration/confirm-email/',
+         email_verification_sent,
+         name='account_email_verification_sent'),
+    re_path(r'^api/v1/users/registration/confirm-email/(?P<key>[-:\w]+)/$',
+            confirm_email,
             name='account_confirm_email'),
 ]
