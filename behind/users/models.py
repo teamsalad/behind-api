@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
-from behind.companies.models import Company, Job
+from companies.models import Company, Job
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -62,15 +62,18 @@ class UserJobHistory(models.Model):
     confirmation_information = models.TextField()
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
+        null=True
     )
     company = models.OneToOneField(
         Company,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
+        null=True
     )
     job = models.OneToOneField(
         Job,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
+        null=True
     )
 
     class Meta:
