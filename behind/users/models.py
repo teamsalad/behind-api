@@ -60,10 +60,10 @@ class UserJobHistory(models.Model):
     )
     confirmed = models.BooleanField(default=False)
     confirmation_information = models.TextField()
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True
+        on_delete=models.CASCADE,
+        related_name='job_histories'
     )
     company = models.OneToOneField(
         Company,
