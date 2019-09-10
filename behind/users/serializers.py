@@ -1,12 +1,17 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
+from .models import ROLES
 
 UserModel = get_user_model()
 
 
 class UserRegisterSerializer(RegisterSerializer):
-    role = serializers.IntegerField(required=True)
+    role = serializers.IntegerField(
+        required=True,
+        choices=ROLES,
+        default=ROLES[0][0]
+    )
 
     def update(self, instance, validated_data):
         return super(RegisterSerializer, self).update(instance, validated_data)
