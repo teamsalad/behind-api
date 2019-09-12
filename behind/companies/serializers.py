@@ -17,10 +17,15 @@ class JobSerializer(serializers.ModelSerializer):
 
 
 class CompanySerializer(serializers.ModelSerializer):
+    jobs = JobSerializer(
+        read_only=True,
+        many=True
+    )
+
     class Meta:
         model = Company
-        fields = ('id', 'name', 'email_domain',)
-        read_only_fields = ('id', 'name', 'email_domain',)
+        fields = ('id', 'name', 'email_domain', 'jobs',)
+        read_only_fields = ('id', 'name', 'email_domain', 'jobs',)
 
 
 class CreateUserJobHistorySerializer(serializers.ModelSerializer):
