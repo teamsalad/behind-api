@@ -40,12 +40,12 @@ class UserJobHistory(models.Model):
         on_delete=models.CASCADE,
         related_name='job_histories'
     )
-    company = models.OneToOneField(
+    company = models.ForeignKey(
         Company,
         on_delete=models.SET_NULL,
         null=True
     )
-    job = models.OneToOneField(
+    job = models.ForeignKey(
         Job,
         on_delete=models.SET_NULL,
         null=True
