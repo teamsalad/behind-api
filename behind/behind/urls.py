@@ -17,7 +17,10 @@ from allauth.account.views import confirm_email, email_verification_sent
 from rest_auth.registration.views import RegisterView
 from django.contrib import admin
 from django.urls import path, re_path, include
-from companies.views import UserJobHistoryListView
+from companies.views import (
+    UserJobHistoryListView,
+    CompanyListView,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,4 +34,5 @@ urlpatterns = [
             confirm_email,
             name='account_confirm_email'),
     path('api/v1/user-job-histories/', UserJobHistoryListView.as_view()),
+    path('api/v1/companies/', CompanyListView.as_view()),
 ]
