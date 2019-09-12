@@ -20,6 +20,7 @@ from django.urls import path, re_path, include
 from companies.views import (
     UserJobHistoryListView,
     CompanyListView,
+    JobListView,
 )
 
 urlpatterns = [
@@ -35,4 +36,5 @@ urlpatterns = [
             name='account_confirm_email'),
     path('api/v1/user-job-histories/', UserJobHistoryListView.as_view()),
     path('api/v1/companies/', CompanyListView.as_view()),
+    path('api/v1/jobs/', JobListView.as_view()),
 ]

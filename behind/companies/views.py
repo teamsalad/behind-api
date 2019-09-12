@@ -2,11 +2,12 @@ from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView, ListAPIView
 
-from companies.models import Company
+from companies.models import Company, Job
 from .serializers import (
     UserJobHistorySerializer,
     CreateUserJobHistorySerializer,
     CompanySerializer,
+    JobSerializer,
 )
 
 
@@ -53,3 +54,9 @@ class CompanyListView(ListAPIView):
     permission_classes = [permissions.AllowAny]
     serializer_class = CompanySerializer
     queryset = Company.objects.all()
+
+
+class JobListView(ListAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = JobSerializer
+    queryset = Job.objects.all()
