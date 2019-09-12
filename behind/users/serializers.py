@@ -7,10 +7,9 @@ UserModel = get_user_model()
 
 
 class UserRegisterSerializer(RegisterSerializer):
-    role = serializers.IntegerField(
+    role = serializers.ChoiceField(
         required=True,
-        choices=ROLES,
-        default=ROLES[0][0]
+        choices=ROLES
     )
 
     def update(self, instance, validated_data):
