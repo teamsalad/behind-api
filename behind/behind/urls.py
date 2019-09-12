@@ -17,6 +17,7 @@ from allauth.account.views import confirm_email, email_verification_sent
 from rest_auth.registration.views import RegisterView
 from django.contrib import admin
 from django.urls import path, re_path, include
+from companies.views import UserJobHistoryListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +30,5 @@ urlpatterns = [
     re_path(r'^api/v1/users/registration/confirm-email/(?P<key>[-:\w]+)/$',
             confirm_email,
             name='account_confirm_email'),
+    path('api/v1/user-job-histories/', UserJobHistoryListView.as_view()),
 ]
