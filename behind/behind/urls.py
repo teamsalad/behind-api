@@ -14,22 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path, include
-from companies.views import (
-    UserJobHistoryListView,
-    UserJobHistoryConfirmView,
-    CompanyListView,
-    JobListView,
-)
+from django.urls import path, include
+
+from companies.views import CompanyListView, JobListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/docs/users/', include('rest_framework.urls')),
     path('api/v1/users/', include('users.urls')),
-    path('api/v1/user-job-histories/', UserJobHistoryListView.as_view()),
-    re_path(r'^api/v1/user-job-histories/confirm-email/(?P<key>[-:\w]+)/$',
-            UserJobHistoryConfirmView.as_view(),
-            name='confirm_company_email'),
+    path('api/v1/user-job-histories/', include('companies.urls')),
     path('api/v1/companies/', CompanyListView.as_view()),
     path('api/v1/jobs/', JobListView.as_view()),
 ]
