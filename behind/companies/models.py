@@ -53,5 +53,9 @@ class UserJobHistory(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def confirm(self):
+        self.confirmed = True
+        self.save()
+
     class Meta:
         db_table = "user_job_histories"
