@@ -49,14 +49,19 @@ class CreateUserJobHistorySerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         if validated_data.get('confirmation_method') == METHODS[0][0]:
             company_email = validated_data.pop('company_email')
+            company_domain = company_email.split("@")[1]
             if UserJobHistory.objects.filter(confirmation_information=company_email).exists():
                 raise serializers.ValidationError({
                     'company_email': 'Already exists.'
                 })
-            company_domain = company_email.split("@")[1]
+            try:
+                validated_data['company'] = Company.objects.get(email_domain=company_domain)
+            except Company.DoesNotExist:
+                raise serializers.ValidationError({
+                    'company_email': 'No company associated with this email domain'
+                })
             validated_data['job_id'] = validated_data['job_id'].id
             validated_data['user'] = self.context['current_user']
-            validated_data['company'] = Company.objects.get(email_domain=company_domain)
             validated_data['confirmation_information'] = company_email
             self._send_confirmation_mail(self.context['request'], company_email)
         return UserJobHistory.objects.create(**validated_data)
