@@ -13,6 +13,9 @@ class Job(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f'Job {self.title}'
+
     class Meta:
         db_table = "jobs"
 
@@ -23,6 +26,9 @@ class Company(models.Model):
     jobs = models.ManyToManyField(Job)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'Company {self.name} {self.email_domain}'
 
     class Meta:
         db_table = "companies"
@@ -56,6 +62,9 @@ class UserJobHistory(models.Model):
     def confirm(self):
         self.confirmed = True
         self.save()
+
+    def __str__(self):
+        return f'UserJobHistory {self.confirmation_information} {self.confirmed}'
 
     class Meta:
         db_table = "user_job_histories"
