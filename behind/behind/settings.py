@@ -54,12 +54,15 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_auth',
     'rest_auth.registration',
+    'channels',
     'users',
     'companies',
     'questions',
 ]
 
 SITE_ID = 1
+
+ASGI_APPLICATION = "behind.routing.application"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
