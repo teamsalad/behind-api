@@ -2,12 +2,20 @@ from rest_framework import permissions, status
 from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 
+from questions.models import Question
 from questions.serializers import (
     CreateQuestionSerializer,
     QuestionSerializer,
     CreateAnswerSerializer,
     AnswerSerializer,
 )
+
+
+class QuestionFeedView(ListAPIView):
+    # TODO: Add role related permissions
+    permissions_classes = [permissions.IsAuthenticated]
+    serializer_class = QuestionSerializer
+    queryset = Question.objects.all()
 
 
 class QuestionListView(ListAPIView):
