@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/v1/user-job-histories/', include('companies.urls')),
     path('api/v1/companies/', CompanyListView.as_view()),
     path('api/v1/jobs/', JobListView.as_view()),
+    path('api/v1/questions/', include('questions.urls')),
 ]
