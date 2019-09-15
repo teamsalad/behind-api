@@ -17,6 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 from companies.views import CompanyListView, JobListView
+from questions.views import (
+    QuestionListView,
+    QuestionDetailView,
+    AnswerListView,
+    AnswerDetailView
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +31,8 @@ urlpatterns = [
     path('api/v1/user-job-histories/', include('companies.urls')),
     path('api/v1/companies/', CompanyListView.as_view()),
     path('api/v1/jobs/', JobListView.as_view()),
-    path('api/v1/questions/', include('questions.urls')),
+    path('api/v1/questions/', QuestionListView.as_view()),
+    path('api/v1/questions/<int:id>', QuestionDetailView.as_view()),
+    path('api/v1/answers/', AnswerListView.as_view()),
+    path('api/v1/answers/<int:id>', AnswerDetailView.as_view()),
 ]

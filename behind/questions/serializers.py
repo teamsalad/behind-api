@@ -40,6 +40,11 @@ class CreateAnswerSerializer(serializers.ModelSerializer):
     )
     answerer = UserDetailsSerializer(read_only=True)
 
+    def create(self, validated_data):
+        validated_data['answerer'] = self.context['current_user']
+        validated_data['question_id'] = validated_data['question_id'].id
+        return Answer.objects.create(**validated_data)
+
     class Meta:
         model = Answer
         fields = ('id', 'content', 'answerer', 'question_id', 'created_at',)
