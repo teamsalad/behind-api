@@ -13,7 +13,7 @@ from questions.serializers import (
 
 class QuestionFeedView(ListAPIView):
     # TODO: Add role related permissions
-    permissions_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
 
