@@ -27,6 +27,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         },
     )
     email = models.EmailField(unique=True)
+    introduction = models.TextField()
     role = models.PositiveSmallIntegerField(
         choices=ROLES,
         default=ROLES[0][0]
