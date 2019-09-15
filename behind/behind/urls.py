@@ -33,8 +33,8 @@ urlpatterns = [
     path('api/v1/companies/', CompanyListView.as_view()),
     path('api/v1/jobs/', JobListView.as_view()),
     path('api/v1/questions/', QuestionListView.as_view()),
-    path('api/v1/questions/<int:id>', QuestionDetailView.as_view()),
-    path('api/v1/questions/feed', QuestionFeedView.as_view()),
+    path('api/v1/questions/<int:id>/', QuestionDetailView.as_view()),
+    path('api/v1/questions/feed/', QuestionFeedView.as_view()),
     path('api/v1/answers/', AnswerListView.as_view()),
-    path('api/v1/answers/<int:id>', AnswerDetailView.as_view()),
+    path('api/v1/answers/<int:id>/', AnswerDetailView.as_view()),
 ]
