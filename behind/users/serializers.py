@@ -1,7 +1,9 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
-from .models import ROLES
+
+from users.models import ROLES
+from companies.serializers import UserJobHistorySerializer
 
 UserModel = get_user_model()
 
@@ -20,7 +22,10 @@ class UserRegisterSerializer(RegisterSerializer):
 
 
 class UserDetailsSerializer(serializers.ModelSerializer):
+    job_histories = UserJobHistorySerializer(many=True)
+
     class Meta:
         model = UserModel
-        fields = ('id', 'email', 'username', 'role', 'introduction',)
-        read_only_fields = ('id', 'email',)
+        fields = ('id', 'email', 'username',
+                  'role', 'introduction', 'job_histories',)
+        read_only_fields = ('id', 'email', 'job_histories',)
