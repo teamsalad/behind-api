@@ -5,16 +5,15 @@ from rest_framework.response import Response
 from questions.models import Question
 from questions.serializers import (
     CreateQuestionSerializer,
-    QuestionSerializer,
+    QuestionListSerializer,
     CreateAnswerSerializer,
-    AnswerSerializer,
-)
+    AnswerListSerializer)
 
 
 class QuestionFeedView(ListAPIView):
     # TODO: Add role related permissions
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = QuestionSerializer
+    serializer_class = QuestionListSerializer
     queryset = Question.objects.all()
 
 
@@ -40,7 +39,7 @@ class QuestionListView(ListAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return CreateQuestionSerializer
-        return QuestionSerializer
+        return QuestionListSerializer
 
     def post(self, request, format=None):
         serializer = self.get_serializer(data=request.data)
@@ -58,7 +57,7 @@ class QuestionListView(ListAPIView):
 
 class QuestionDetailView(RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = QuestionSerializer
+    serializer_class = QuestionListSerializer
     lookup_field = 'id'
 
     # TODO: Add my resource permission 'isQuestionOwner'
@@ -89,7 +88,7 @@ class AnswerListView(ListAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return CreateAnswerSerializer
-        return AnswerSerializer
+        return AnswerListSerializer
 
     def post(self, request, format=None):
         serializer = self.get_serializer(data=request.data)
@@ -107,7 +106,7 @@ class AnswerListView(ListAPIView):
 
 class AnswerDetailView(RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = AnswerSerializer
+    serializer_class = AnswerListSerializer
     lookup_field = 'id'
 
     # TODO: Add my resource permission 'isAnswerOwner'

@@ -6,7 +6,27 @@ from users.serializers import UserDetailsSerializer
 from questions.models import Question, Answer
 
 
-class AnswerSerializer(serializers.ModelSerializer):
+class AnswerListQuestionSerializer(serializers.ModelSerializer):
+    job = JobSerializer(read_only=True)
+    company = CompanySerializer(read_only=True)
+
+    class Meta:
+        model = Question
+        fields = ('id', 'content', 'job', 'company', 'created_at',)
+        read_only_fields = ('id', 'job', 'company', 'created_at',)
+
+
+class AnswerListSerializer(serializers.ModelSerializer):
+    answerer = UserDetailsSerializer(read_only=True)
+    question = AnswerListQuestionSerializer(read_only=True)
+
+    class Meta:
+        model = Answer
+        fields = ('id', 'content', 'answerer', 'question', 'created_at',)
+        read_only_fields = ('id', 'answerer', 'question', 'created_at',)
+
+
+class QuestionListAnswerSerializer(serializers.ModelSerializer):
     answerer = UserDetailsSerializer(read_only=True)
 
     class Meta:
@@ -15,10 +35,10 @@ class AnswerSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'answerer', 'created_at',)
 
 
-class QuestionSerializer(serializers.ModelSerializer):
+class QuestionListSerializer(serializers.ModelSerializer):
     job = JobSerializer(read_only=True)
     company = CompanySerializer(read_only=True)
-    answers = AnswerSerializer(read_only=True, many=True)
+    answers = QuestionListAnswerSerializer(read_only=True, many=True)
 
     class Meta:
         model = Question
@@ -68,7 +88,7 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
     )
     job = JobSerializer(read_only=True)
     company = CompanySerializer(read_only=True)
-    answers = AnswerSerializer(read_only=True, many=True)
+    answers = QuestionListAnswerSerializer(read_only=True, many=True)
 
     def create(self, validated_data):
         validated_data['job_id'] = validated_data['job_id'].id
