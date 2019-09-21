@@ -65,6 +65,8 @@ SITE_ID = 1
 
 ASGI_APPLICATION = "behind.routing.application"
 
+CHANNEL_LAYERS = {}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
