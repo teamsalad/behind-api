@@ -14,9 +14,10 @@ class ChatRoom(models.Model):
         choices=STATUS,
         default=STATUS[0][0]
     )
-    answer = models.ForeignKey(
+    answer = models.OneToOneField(
         Answer,
         on_delete=models.SET_NULL,
+        null=True,
         related_name='chat_room'
     )
     created_at = models.DateTimeField(auto_now_add=True)
