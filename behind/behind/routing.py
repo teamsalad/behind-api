@@ -1,11 +1,11 @@
 from channels.routing import ProtocolTypeRouter, URLRouter
-from channels.auth import AuthMiddlewareStack
+from behind.authentication import TokenAuthMiddlewareStack
 
 import chats.routing
 
 application = ProtocolTypeRouter({
     # Empty for now (http->django views is added by default)
-    'websocket': AuthMiddlewareStack(
+    'websocket': TokenAuthMiddlewareStack(
         URLRouter(
             chats.routing.websocket_urlpatterns
         )
