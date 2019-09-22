@@ -23,8 +23,8 @@ class AnswerListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Answer
-        fields = ('id', 'content', 'answerer', 'question', 'created_at',)
-        read_only_fields = ('id', 'answerer', 'question', 'created_at',)
+        fields = ('id', 'content', 'answerer', 'question', 'chat_room', 'created_at',)
+        read_only_fields = ('id', 'answerer', 'question', 'chat_room', 'created_at',)
 
 
 class QuestionListAnswerSerializer(serializers.ModelSerializer):
@@ -32,8 +32,8 @@ class QuestionListAnswerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Answer
-        fields = ('id', 'content', 'answerer', 'created_at',)
-        read_only_fields = ('id', 'answerer', 'created_at',)
+        fields = ('id', 'content', 'answerer', 'chat_room', 'created_at',)
+        read_only_fields = ('id', 'answerer', 'chat_room', 'created_at',)
 
 
 class QuestionListSerializer(serializers.ModelSerializer):
