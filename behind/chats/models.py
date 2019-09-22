@@ -23,6 +23,9 @@ class ChatRoom(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f'ChatRoom {self.id} {self.state}'
+
     class Meta:
         db_table = "chat_rooms"
 
@@ -40,6 +43,9 @@ class ChatParticipant(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'ChatParticipant {self.id}'
 
     class Meta:
         db_table = "chat_participants"
@@ -59,6 +65,9 @@ class ChatMessage(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'ChatMessage {self.id} {self.message}'
 
     class Meta:
         db_table = "chat_messages"
