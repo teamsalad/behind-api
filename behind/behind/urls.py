@@ -37,4 +37,5 @@ urlpatterns = [
     path('api/v1/questions/feed/', QuestionFeedView.as_view()),
     path('api/v1/answers/', AnswerListView.as_view()),
     path('api/v1/answers/<int:id>/', AnswerDetailView.as_view()),
+    path('api/v1/chat_rooms/', include('chats.urls')),
 ]
