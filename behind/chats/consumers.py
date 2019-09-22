@@ -26,8 +26,8 @@ class ChatConsumer(WebsocketConsumer):
         self.user = self.scope['user']
         self.chat_room_id = self.scope['url_route']['kwargs']['id']
         self.chat_room_group_name = f'chat_room_{self.chat_room_id}'
-        if not self.user.is_authenticated():
-            # TODO: use code to make error messages for disconnection reasons
+        # TODO: use code to make error messages for disconnection reasons
+        if not self.user.is_authenticated:
             self.disconnect(1000)
         # TODO: Validate if chat room exists and user is participant
         async_to_sync(self.channel_layer.group_add)(
