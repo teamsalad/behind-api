@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db import transaction
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
 
@@ -14,9 +15,11 @@ class UserRegisterSerializer(RegisterSerializer):
         choices=ROLES
     )
 
+    @transaction.atomic
     def update(self, instance, validated_data):
         return super(RegisterSerializer, self).update(instance, validated_data)
 
+    @transaction.atomic
     def create(self, validated_data):
         return super(RegisterSerializer, self).create(validated_data)
 

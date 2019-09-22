@@ -1,5 +1,6 @@
 from allauth.utils import build_absolute_uri
 from django.contrib.sites.shortcuts import get_current_site
+from django.db import transaction
 from django.urls import reverse
 
 from behind import settings
@@ -46,6 +47,7 @@ class CreateUserJobHistorySerializer(serializers.ModelSerializer):
     company = CompanySerializer(read_only=True)
     job = JobSerializer(read_only=True)
 
+    @transaction.atomic
     def create(self, validated_data):
         if validated_data.get('confirmation_method') == METHODS[0][0]:
             company_email = validated_data.pop('company_email')

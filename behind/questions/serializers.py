@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework import serializers
 
 from companies.models import Job, Company
@@ -60,6 +61,7 @@ class CreateAnswerSerializer(serializers.ModelSerializer):
     )
     answerer = UserDetailsSerializer(read_only=True)
 
+    @transaction.atomic
     def create(self, validated_data):
         validated_data['answerer'] = self.context['current_user']
         validated_data['question_id'] = validated_data['question_id'].id
