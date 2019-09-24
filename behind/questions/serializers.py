@@ -13,8 +13,8 @@ class AnswerListQuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ('id', 'content', 'job', 'company', 'created_at',)
-        read_only_fields = ('id', 'job', 'company', 'created_at',)
+        fields = ('id', 'content', 'job', 'company', 'questioner', 'created_at',)
+        read_only_fields = ('id', 'job', 'company', 'questioner', 'created_at',)
 
 
 class AnswerListSerializer(serializers.ModelSerializer):
@@ -43,9 +43,9 @@ class QuestionListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ('id', 'content', 'job', 'company',
+        fields = ('id', 'content', 'job', 'company', 'questioner',
                   'answers', 'created_at',)
-        read_only_fields = ('id', 'job', 'company',
+        read_only_fields = ('id', 'job', 'company', 'questioner',
                             'answers', 'created_at',)
 
 
