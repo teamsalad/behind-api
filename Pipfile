@@ -15,6 +15,7 @@ django-rest-auth = "*"
 django-allauth = "*"
 django-dotenv = "*"
 channels = "*"
+channels-redis = "*"
 
 [requires]
 python_version = "3.7"
