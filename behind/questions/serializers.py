@@ -92,6 +92,7 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
     company = CompanySerializer(read_only=True)
     answers = QuestionListAnswerSerializer(read_only=True, many=True)
 
+    @transaction.atomic
     def create(self, validated_data):
         validated_data['job_id'] = validated_data['job_id'].id
         validated_data['company_id'] = validated_data['company_id'].id
