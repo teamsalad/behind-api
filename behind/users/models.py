@@ -27,7 +27,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         },
     )
     email = models.EmailField(unique=True)
-    introduction = models.TextField()
+    job_seeker_intro = models.TextField(blank=True)
+    employee_intro = models.TextField(blank=True)
     role = models.PositiveSmallIntegerField(
         choices=ROLES,
         default=ROLES[0][0]
