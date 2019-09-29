@@ -42,7 +42,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             self.channel_name
         )
 
-    async def receive(self, content=None, **kwargs):
+    async def receive_json(self, content, **kwargs):
         # Send message to room group
         if content['type'] == 'chat_message':
             await self.channel_layer.group_send(
