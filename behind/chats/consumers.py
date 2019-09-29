@@ -1,7 +1,7 @@
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
-from chats.models import ChatMessage
+from chats.models import ChatMessage, ChatParticipant
 
 
 class ChatConsumer(AsyncJsonWebsocketConsumer):
@@ -26,17 +26,22 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         self.user = self.scope['user']
         self.chat_room_id = self.scope['url_route']['kwargs']['id']
         self.chat_room_group_name = f'chat_room_{self.chat_room_id}'
-        # TODO: use code to make error messages for disconnection reasons
         if not self.user.is_authenticated:
             await self.disconnect(1000)
-        # TODO: Validate if chat room exists and user is participant
-        await self.channel_layer.group_add(
-            self.chat_room_group_name,
-            self.channel_name
-        )
-        await self.accept()
+        elif not ChatParticipant.objects.filter(
+                chat_room_id=self.chat_room_id,
+                user_id=self.user.id
+        ).exists():
+            await self.disconnect(1001)
+        else:
+            await self.channel_layer.group_add(
+                self.chat_room_group_name,
+                self.channel_name
+            )
+            await self.accept()
 
     async def disconnect(self, code):
+        # TODO: use code to make error messages for disconnection reasons
         await self.channel_layer.group_discard(
             self.chat_room_group_name,
             self.channel_name
