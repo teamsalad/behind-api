@@ -1,4 +1,7 @@
+from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
+
+from chats.models import ChatMessage
 
 
 class ChatConsumer(AsyncJsonWebsocketConsumer):
@@ -59,9 +62,16 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             )
 
     async def chat_message(self, event):
+        message = event['message']
+        # Save chat message
+        await database_sync_to_async(ChatMessage.objects.create)(
+            message=message,
+            user_id=self.user.id,
+            chat_room_id=self.chat_room_id
+        )
         await self.send_json({
             'user_id': self.user.id,
-            'message': event['message']
+            'message': message
         })
 
     async def chat_timer(self, event):
