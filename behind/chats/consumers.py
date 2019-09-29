@@ -44,21 +44,33 @@ class ChatConsumer(WebsocketConsumer):
 
     def receive(self, text_data=None, bytes_data=None):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
 
         # Send message to room group
-        async_to_sync(self.channel_layer.group_send)(
-            self.chat_room_group_name,
-            {
-                'type': 'chat_message',
-                'message': message
-            }
-        )
+        if text_data_json['type'] == 'chat_message':
+            async_to_sync(self.channel_layer.group_send)(
+                self.chat_room_group_name,
+                {
+                    'type': text_data_json['type'],
+                    'message': text_data_json['message']
+                }
+            )
+        if text_data_json['type'] == 'chat_timer':
+            async_to_sync(self.channel_layer.group_send)(
+                self.chat_room_group_name,
+                {
+                    'type': text_data_json['type'],
+                    'time_left': text_data_json['time_left']
+                }
+            )
 
     def chat_message(self, event):
-        message = event['message']
-
-        # Send message to WebSocket
         self.send(text_data=json.dumps({
-            'message': message
+            'user_id': self.user.id,
+            'message': event['message']
+        }))
+
+    def chat_timer(self, event):
+        self.send(text_data=json.dumps({
+            'user_id': self.user.id,
+            'time_left': event['time_left']
         }))
