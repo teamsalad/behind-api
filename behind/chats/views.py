@@ -1,6 +1,6 @@
 from rest_framework import permissions, status
+from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
-from rest_framework.generics import CreateAPIView, RetrieveAPIView
 
 from chats.models import ChatRoom
 from chats.serializers import CreateChatRoomSerializer, ChatRoomSerializer
@@ -25,7 +25,7 @@ class ChatRoomCreateView(CreateAPIView):
         )
 
 
-class ChatRoomDetailView(RetrieveAPIView):
+class ChatRoomDetailView(RetrieveUpdateAPIView):
     # TODO: Check whether user is a participant
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = ChatRoomSerializer

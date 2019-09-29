@@ -78,8 +78,8 @@ class CreateChatRoomSerializer(serializers.ModelSerializer):
 
 
 class ChatRoomSerializer(serializers.ModelSerializer):
-    participants = ChatParticipantSerializer(many=True)
-    messages = ChatMessageSerializer(many=True)
+    participants = ChatParticipantSerializer(many=True, read_only=True)
+    messages = ChatMessageSerializer(many=True, read_only=True)
 
     class Meta:
         model = ChatRoom
@@ -87,5 +87,5 @@ class ChatRoomSerializer(serializers.ModelSerializer):
             'id', 'state', 'participants', 'messages', 'created_at',
         )
         read_only_fields = (
-            'id', 'state', 'participants', 'messages', 'created_at',
+            'id', 'participants', 'messages', 'created_at',
         )
