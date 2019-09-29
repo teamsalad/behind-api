@@ -54,7 +54,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 self.chat_room_group_name,
                 {
                     'type': content['type'],
-                    'message': content['message']
+                    'message': content['message'],
+                    'user_id': self.user.id
                 }
             )
         if content['type'] == 'chat_timer':
@@ -62,25 +63,27 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 self.chat_room_group_name,
                 {
                     'type': content['type'],
-                    'time_left': content['time_left']
+                    'time_left': content['time_left'],
+                    'user_id': self.user.id
                 }
             )
 
     async def chat_message(self, event):
         message = event['message']
         # Save chat message
-        await database_sync_to_async(ChatMessage.objects.create)(
-            message=message,
-            user_id=self.user.id,
-            chat_room_id=self.chat_room_id
-        )
+        if self.user.id == event['user_id']:
+            await database_sync_to_async(ChatMessage.objects.create)(
+                message=message,
+                user_id=self.user.id,
+                chat_room_id=self.chat_room_id
+            )
         await self.send_json({
-            'user_id': self.user.id,
+            'user_id': event['user_id'],
             'message': message
         })
 
     async def chat_timer(self, event):
         await self.send_json({
-            'user_id': self.user.id,
+            'user_id': event['user_id'],
             'time_left': event['time_left']
         })
