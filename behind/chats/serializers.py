@@ -54,6 +54,7 @@ class CreateChatRoomSerializer(serializers.ModelSerializer):
         read_only=True,
         many=True
     )
+    time_left = serializers.TimeField(required=True)
 
     @transaction.atomic
     def create(self, validated_data):
@@ -69,7 +70,7 @@ class CreateChatRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatRoom
         fields = (
-            'id', 'participant_ids', 'answer_id', 'state',
+            'id', 'participant_ids', 'answer_id', 'state', 'time_left',
             'participants', 'messages', 'created_at',
         )
         read_only_fields = (
@@ -84,8 +85,8 @@ class ChatRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatRoom
         fields = (
-            'id', 'state', 'participants', 'messages', 'created_at',
+            'id', 'state', 'participants', 'messages', 'time_left', 'created_at',
         )
         read_only_fields = (
-            'id', 'participants', 'messages', 'created_at',
+            'id', 'participants', 'messages', 'time_left', 'created_at',
         )
