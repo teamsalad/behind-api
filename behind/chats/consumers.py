@@ -85,7 +85,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         })
 
     async def chat_timer(self, event):
-        minute, second = (int(x) for x in event['time_left'].split(":"))
+        hour, minute, second = (int(x) for x in event['time_left'].split(":"))
         chat_room = await self.update_time(
             self.chat_room_id,
             datetime.time(0, minute, second)
