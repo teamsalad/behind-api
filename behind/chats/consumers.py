@@ -1,7 +1,9 @@
+import datetime
+
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
-from chats.models import ChatMessage, ChatParticipant
+from chats.models import ChatMessage, ChatParticipant, ChatRoom
 
 
 class ChatConsumer(AsyncJsonWebsocketConsumer):
@@ -83,7 +85,20 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         })
 
     async def chat_timer(self, event):
+        minute, second = (int(x) for x in event['time_left'].split(":"))
+        chat_room = await self.update_time(
+            self.chat_room_id,
+            datetime.time(0, minute, second)
+        )
         await self.send_json({
             'user_id': event['user_id'],
-            'time_left': event['time_left']
+            'time_left': chat_room.time_left
         })
+
+    @database_sync_to_async
+    def update_time(self, chat_room_id, time_left):
+        chat_room = ChatRoom.objects.get(chat_room_id)
+        if datetime.time(0, 0, 0) <= time_left < chat_room.time_left:
+            chat_room.time_left = time_left
+            chat_room.save()
+        return chat_room
