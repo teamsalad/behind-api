@@ -92,12 +92,12 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         )
         await self.send_json({
             'user_id': event['user_id'],
-            'time_left': chat_room.time_left
+            'time_left': chat_room.time_left.strftime("%H:%M:%S")
         })
 
     @database_sync_to_async
     def update_time(self, chat_room_id, time_left):
-        chat_room = ChatRoom.objects.get(chat_room_id)
+        chat_room = ChatRoom.objects.get(id=chat_room_id)
         if datetime.time(0, 0, 0) <= time_left < chat_room.time_left:
             chat_room.time_left = time_left
             chat_room.save()
