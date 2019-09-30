@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'companies',
     'questions',
     'chats',
+    'payments',
 ]
 
 SITE_ID = 1
