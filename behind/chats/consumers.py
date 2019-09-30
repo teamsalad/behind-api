@@ -41,9 +41,25 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 self.channel_name
             )
             await self.accept()
+            await self.channel_layer.group_send(
+                self.chat_room_group_name,
+                {
+                    'type': 'chat_connection_status',
+                    'user_id': self.user.id,
+                    'status': 'CONNECTED'
+                }
+            )
 
     async def disconnect(self, code):
         # TODO: use code to make error messages for disconnection reasons
+        await self.channel_layer.group_send(
+            self.chat_room_group_name,
+            {
+                'type': 'chat_connection_status',
+                'user_id': self.user.id,
+                'status': 'DISCONNECTED'
+            }
+        )
         await self.channel_layer.group_discard(
             self.chat_room_group_name,
             self.channel_name
@@ -102,3 +118,10 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             chat_room.time_left = time_left
             chat_room.save()
         return chat_room
+
+    async def chat_connection_status(self, event):
+        await self.send_json({
+            'user_id': event['user_id'],
+            'status': event['status']
+        })
+
