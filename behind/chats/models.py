@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 from behind import settings
@@ -20,6 +22,7 @@ class ChatRoom(models.Model):
         null=True,
         related_name='chat_room'
     )
+    time_left = models.TimeField(default=datetime.time(0, 20, 0))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
