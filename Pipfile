@@ -16,7 +16,6 @@ django-allauth = "*"
 django-dotenv = "*"
 channels = "*"
 channels-redis = "*"
-django-push-notifications = "*"
 
 [requires]
 python_version = "3.7"
