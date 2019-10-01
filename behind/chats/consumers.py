@@ -9,15 +9,7 @@ from chats.models import ChatMessage, ChatParticipant, ChatRoom
 class ChatConsumer(AsyncJsonWebsocketConsumer):
     """
     ws/ --> Just for websocket stuff.
-    path/ --> HTTP stuff.
-    Use nginx and route both!
-
-    I also need to find about how to write asynchronous consumers.
-    https://channels.readthedocs.io/en/latest/topics/consumers.html
-    I have to be careful on connecting Django models.
-
-    `connect` and `disconnect` are websocket protocol layer functions.
-    The other functions you define are events
+    api/ --> HTTP stuff.
     """
     async def connect(self):
         """
@@ -44,9 +36,9 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             await self.channel_layer.group_send(
                 self.chat_room_group_name,
                 {
-                    'type': 'chat_connection_status',
+                    'type': 'chat_state',
                     'user_id': self.user.id,
-                    'status': 'CONNECTED'
+                    'state': 'CONNECTED'
                 }
             )
 
@@ -55,9 +47,9 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         await self.channel_layer.group_send(
             self.chat_room_group_name,
             {
-                'type': 'chat_connection_status',
+                'type': 'chat_state',
                 'user_id': self.user.id,
-                'status': 'DISCONNECTED'
+                'state': 'DISCONNECTED'
             }
         )
         await self.channel_layer.group_discard(
@@ -82,6 +74,15 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 {
                     'type': content['type'],
                     'time_left': content['time_left'],
+                    'user_id': self.user.id
+                }
+            )
+        if content['type'] == 'chat_state':
+            await self.channel_layer.group_send(
+                self.chat_room_group_name,
+                {
+                    'type': content['type'],
+                    'state': content['state'],
                     'user_id': self.user.id
                 }
             )
@@ -119,9 +120,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             chat_room.save()
         return chat_room
 
-    async def chat_connection_status(self, event):
+    async def chat_state(self, event):
         await self.send_json({
             'user_id': event['user_id'],
-            'status': event['status']
+            'state': event['state']
         })
-
