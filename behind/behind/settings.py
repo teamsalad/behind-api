@@ -55,12 +55,17 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'channels',
+    'push_notifications',
     'users',
     'companies',
     'questions',
     'chats',
     'payments',
 ]
+
+PUSH_NOTIFICATIONS_SETTINGS = {
+    'FCM_API_KEY': os.getenv('FCM_API_KEY'),
+}
 
 SITE_ID = 1
 
