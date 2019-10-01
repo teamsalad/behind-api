@@ -55,12 +55,19 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'channels',
+    'fcm_django',
     'users',
     'companies',
     'questions',
     'chats',
     'payments',
 ]
+
+FCM_DJANGO_SETTINGS = {
+    "FCM_SERVER_KEY": os.getenv('FCM_API_KEY'),
+    "ONE_DEVICE_PER_USER": False,
+    "DELETE_INACTIVE_DEVICES": False,
+}
 
 SITE_ID = 1
 
