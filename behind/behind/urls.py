@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
+from fcm_django.api.rest_framework import FCMDeviceAuthorizedViewSet
 from companies.views import CompanyListView, JobListView
 from questions.views import (
     QuestionListView,
@@ -25,8 +27,12 @@ from questions.views import (
     QuestionFeedView,
 )
 
+router = DefaultRouter()
+router.register(r'devices', FCMDeviceAuthorizedViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/v1/', include(router.urls)),
     path('api/docs/users/', include('rest_framework.urls')),
     path('api/v1/users/', include('users.urls')),
     path('api/v1/user-job-histories/', include('companies.urls')),
