@@ -101,7 +101,10 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             'message': event['message']
         })
         if self.user.id != event['user_id']:
-            self.send_push_notification(event['user_id'], event['message'])
+            await self.send_push_notification(
+                event['user_id'],
+                event['message']
+            )
 
     async def chat_timer(self, event):
         hour, minute, second = (int(x) for x in event['time_left'].split(":"))
