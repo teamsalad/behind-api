@@ -4,6 +4,7 @@ from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
 from chats.models import ChatMessage, ChatParticipant, ChatRoom
+from users.models import User
 
 
 class ChatConsumer(AsyncJsonWebsocketConsumer):
@@ -88,18 +89,19 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             )
 
     async def chat_message(self, event):
-        message = event['message']
         # Save chat message
         if self.user.id == event['user_id']:
             await database_sync_to_async(ChatMessage.objects.create)(
-                message=message,
+                message=event['message'],
                 user_id=self.user.id,
                 chat_room_id=self.chat_room_id
             )
         await self.send_json({
             'user_id': event['user_id'],
-            'message': message
+            'message': event['message']
         })
+        if self.user.id != event['user_id']:
+            self.send_push_notification(event['user_id'], event['message'])
 
     async def chat_timer(self, event):
         hour, minute, second = (int(x) for x in event['time_left'].split(":"))
@@ -119,6 +121,13 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             chat_room.time_left = time_left
             chat_room.save()
         return chat_room
+
+    @database_sync_to_async
+    def send_push_notification(self, user_id, message):
+        user = User.objects.get(id=user_id)
+        active_device = user.fcmdevice_set.filter(active=True).first()
+        if active_device is not None:
+            active_device.send_message(title=user.username, body=message)
 
     async def chat_state(self, event):
         await self.send_json({
