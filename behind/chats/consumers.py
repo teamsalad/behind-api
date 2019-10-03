@@ -96,15 +96,14 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 user_id=self.user.id,
                 chat_room_id=self.chat_room_id
             )
-        await self.send_json({
-            'user_id': event['user_id'],
-            'message': event['message']
-        })
-        if self.user.id != event['user_id']:
             await self.send_push_notification(
                 event['user_id'],
                 event['message']
             )
+        await self.send_json({
+            'user_id': event['user_id'],
+            'message': event['message']
+        })
 
     async def chat_timer(self, event):
         hour, minute, second = (int(x) for x in event['time_left'].split(":"))
@@ -127,10 +126,14 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
     @database_sync_to_async
     def send_push_notification(self, user_id, message):
-        user = User.objects.get(id=user_id)
+        other_participant = ChatParticipant.objects \
+            .filter(chat_room_id=self.chat_room_id) \
+            .exclude(user_id=user_id) \
+            .first()
+        user = User.objects.get(id=other_participant.user_id)
         active_device = user.fcmdevice_set.filter(active=True).first()
         if active_device is not None:
-            active_device.send_message(title=user.username, body=message)
+            active_device.send_message(title=self.user.username, body=message)
 
     async def chat_state(self, event):
         await self.send_json({
