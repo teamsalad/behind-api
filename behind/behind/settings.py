@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'questions',
     'chats',
     'payments',
+    'purchases',
 ]
 
 FCM_DJANGO_SETTINGS = {
