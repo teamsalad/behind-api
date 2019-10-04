@@ -1,3 +1,41 @@
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-# Create your models here.
+from behind import settings
+
+TYPE = (
+    (1, 'transaction'),
+    (2, 'refund'),
+)
+STATE = (
+    (1, 'staging'),
+    (2, 'committed'),
+)
+
+
+class Purchase(models.Model):
+    amount = models.IntegerField()
+    item_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    item_id = models.PositiveIntegerField()
+    item = GenericForeignKey('item_type', 'item_id')
+    transaction_from = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='incomings'
+    )
+    transaction_to = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='outgoings'
+    )
+    type = models.PositiveSmallIntegerField(
+        choices=TYPE,
+        default=TYPE[0][0]
+    )
+    state = models.PositiveSmallIntegerField(
+        choices=STATE,
+        default=STATE[0][0]
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
