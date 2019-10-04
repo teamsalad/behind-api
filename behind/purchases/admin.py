@@ -1,3 +1,9 @@
 from django.contrib import admin
+from purchases.models import Purchase
 
-# Register your models here.
+
+class PurchaseAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
+
+
+admin.site.register(Purchase, PurchaseAdmin)
