@@ -4,6 +4,13 @@ from django.db import models
 
 from behind import settings
 
+ITEM_TYPE = (
+    'answer',
+    'payment',
+)
+ITEM_PRICE = {
+    'answer': 10000,
+}
 TYPE = (
     (1, 'transaction'),
     (2, 'refund'),

@@ -44,4 +44,5 @@ urlpatterns = [
     path('api/v1/answers/', AnswerListView.as_view()),
     path('api/v1/answers/<int:id>/', AnswerDetailView.as_view()),
     path('api/v1/chat_rooms/', include('chats.urls')),
+    path('api/v1/purchases/', include('purchases.urls')),
 ]
