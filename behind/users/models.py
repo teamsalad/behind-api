@@ -26,6 +26,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             'unique': "A user with that username already exists.",
         },
     )
+    full_name = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
     job_seeker_intro = models.TextField(blank=True)
     employee_intro = models.TextField(blank=True)

@@ -10,6 +10,10 @@ UserModel = get_user_model()
 
 
 class UserRegisterSerializer(RegisterSerializer):
+    full_name = serializers.CharField(
+        required=True,
+        max_length=30
+    )
     role = serializers.ChoiceField(
         required=True,
         choices=ROLES
@@ -30,6 +34,6 @@ class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = ('id', 'email', 'username',
-                  'role', 'job_seeker_intro',
+                  'role', 'full_name', 'job_seeker_intro',
                   'employee_intro', 'job_histories',)
         read_only_fields = ('id', 'email', 'job_histories',)
