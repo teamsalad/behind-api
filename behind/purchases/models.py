@@ -11,6 +11,9 @@ ITEM_TYPE = (
 ITEM_PRICE = {
     'answer': 10000,
 }
+ITEM_COMMISSION = {
+    'answer': 4000
+}
 TYPE = (
     (1, 'transaction'),
     (2, 'refund'),
