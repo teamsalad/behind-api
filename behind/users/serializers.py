@@ -29,7 +29,10 @@ class UserRegisterSerializer(RegisterSerializer):
 
 
 class UserDetailsSerializer(serializers.ModelSerializer):
-    job_histories = UserJobHistorySerializer(many=True)
+    job_histories = UserJobHistorySerializer(
+        many=True,
+        read_only=True
+    )
 
     class Meta:
         model = UserModel
