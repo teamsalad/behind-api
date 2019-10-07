@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.db.models import Sum
+
 from companies.models import Company, Job
 
 ROLES = (
@@ -46,6 +48,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def balance(self):
+        """
+        Calculate balance from purchase history
+        :return: point balance
+        """
+        return self.incomings.aggregate(Sum('amount'))['amount__sum'] or 0 - \
+               self.outgoings.aggregate(Sum('amount'))['amount__sum'] or 0
 
     def __str__(self):
         return f'User {self.email}'

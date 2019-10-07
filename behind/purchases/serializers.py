@@ -22,6 +22,10 @@ class CreatePurchaseSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         if validated_data['item_type'].name == ITEM_TYPE[0]:
+            if self.context['request'].user.balance() - ITEM_PRICE[ITEM_TYPE[0]] <= 0:
+                raise serializers.ValidationError({
+                    'balance': 'Not enough points.'
+                })
             validated_data['amount'] = ITEM_PRICE[ITEM_TYPE[0]]
         elif validated_data['item_type'].name == ITEM_TYPE[1]:
             # TODO: Implement payment flow

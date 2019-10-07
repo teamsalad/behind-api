@@ -29,12 +29,12 @@ class Purchase(models.Model):
     transaction_from = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='incomings'
+        related_name='outgoings'
     )
     transaction_to = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='outgoings'
+        related_name='incomings'
     )
     type = models.PositiveSmallIntegerField(
         choices=TYPE,

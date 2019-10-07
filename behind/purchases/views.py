@@ -1,7 +1,7 @@
-from rest_framework import status, permissions
-from rest_framework.generics import ListAPIView
-from rest_framework.response import Response
 from django.db.models import Q
+from rest_framework import status, permissions
+from rest_framework.generics import ListAPIView, GenericAPIView
+from rest_framework.response import Response
 
 from purchases.models import Purchase
 from purchases.serializers import CreatePurchaseSerializer, PurchaseSerializer
@@ -37,3 +37,13 @@ class PurchaseListView(ListAPIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
+
+
+class PurchaseBalanceView(GenericAPIView):
+    """
+    Get my point balance
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        return Response({'balance': request.user.balance()})
