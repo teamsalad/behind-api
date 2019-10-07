@@ -12,7 +12,7 @@ ITEM_PRICE = {
     'answer': 10000,
 }
 ITEM_COMMISSION = {
-    'answer': 4000
+    'answer': 4000,
 }
 TYPE = (
     (1, 'transaction'),
