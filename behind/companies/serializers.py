@@ -63,7 +63,7 @@ class CreateUserJobHistorySerializer(serializers.ModelSerializer):
                     'company_email': 'No company associated with this email domain'
                 })
             validated_data['job_id'] = validated_data['job_id'].id
-            validated_data['user'] = self.context['current_user']
+            validated_data['user'] = self.context['request'].user
             validated_data['confirmation_information'] = company_email
             self._send_confirmation_mail(self.context['request'], company_email)
         return UserJobHistory.objects.create(**validated_data)

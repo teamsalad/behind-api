@@ -63,7 +63,7 @@ class CreateAnswerSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-        validated_data['answerer'] = self.context['current_user']
+        validated_data['answerer'] = self.context['request'].user
         validated_data['question_id'] = validated_data['question_id'].id
         return Answer.objects.create(**validated_data)
 
@@ -96,7 +96,7 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['job_id'] = validated_data['job_id'].id
         validated_data['company_id'] = validated_data['company_id'].id
-        validated_data['questioner'] = self.context['current_user']
+        validated_data['questioner'] = self.context['request'].user
         return Question.objects.create(**validated_data)
 
     class Meta:

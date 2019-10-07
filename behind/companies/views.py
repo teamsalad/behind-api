@@ -55,15 +55,6 @@ class UserJobHistoryListView(ListAPIView):
     def get_queryset(self):
         return self.request.user.job_histories.all()
 
-    def get_serializer_context(self):
-        context = (
-            super(UserJobHistoryListView, self).get_serializer_context()
-        )
-        context.update({
-            'current_user': self.request.user,
-        })
-        return context
-
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return CreateUserJobHistorySerializer

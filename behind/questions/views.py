@@ -27,15 +27,6 @@ class QuestionListView(ListAPIView):
     def get_queryset(self):
         return self.request.user.questions.all()
 
-    def get_serializer_context(self):
-        context = (
-            super(QuestionListView, self).get_serializer_context()
-        )
-        context.update({
-            'current_user': self.request.user,
-        })
-        return context
-
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return CreateQuestionSerializer
@@ -75,15 +66,6 @@ class AnswerListView(ListAPIView):
 
     def get_queryset(self):
         return self.request.user.answers.all()
-
-    def get_serializer_context(self):
-        context = (
-            super(AnswerListView, self).get_serializer_context()
-        )
-        context.update({
-            'current_user': self.request.user,
-        })
-        return context
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
