@@ -27,6 +27,10 @@ from questions.views import (
     QuestionFeedView,
 )
 
+admin.site.site_header = "The Behind Administration"
+admin.site.site_title = "Welcome to Behind Administration"
+admin.site.index_title = "Behind Entity Management"
+
 router = DefaultRouter()
 router.register(r'devices', FCMDeviceAuthorizedViewSet)
 
