@@ -54,8 +54,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         Calculate balance from purchase history
         :return: point balance
         """
-        return self.incomings.aggregate(Sum('amount'))['amount__sum'] or 0 - \
-               self.outgoings.aggregate(Sum('amount'))['amount__sum'] or 0
+        return (self.incomings.aggregate(Sum('amount'))['amount__sum'] or 0) - \
+               (self.outgoings.aggregate(Sum('amount'))['amount__sum'] or 0)
 
     def __str__(self):
         return f'User {self.email}'
