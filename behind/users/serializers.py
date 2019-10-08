@@ -19,6 +19,10 @@ class UserRegisterSerializer(RegisterSerializer):
         choices=ROLES
     )
 
+    def custom_signup(self, request, user):
+        user.full_name = request.data['full_name']
+        user.save()
+
     @transaction.atomic
     def update(self, instance, validated_data):
         return super(RegisterSerializer, self).update(instance, validated_data)
