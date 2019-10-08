@@ -55,9 +55,11 @@ class PurchaseSerializer(serializers.ModelSerializer):
         model = Purchase
         fields = (
             'id', 'amount', 'item_type', 'item_id',
+            'transaction_from', 'transaction_to',
             'type', 'state', 'created_at',
         )
         read_only_fields = (
             'id', 'amount', 'type', 'state',
+            'transaction_from', 'transaction_to',
             'created_at',
         )
