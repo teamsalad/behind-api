@@ -3,7 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
 
 from behind import settings
-from purchases.models import Purchase
+from purchases.models import Purchase, STATE
 from purchases.models import ITEM_TYPE, ITEM_PRICE
 from users.models import User
 
@@ -25,6 +25,15 @@ class CreatePurchaseSerializer(serializers.ModelSerializer):
             if self.context['request'].user.balance() - ITEM_PRICE[ITEM_TYPE[0]] <= 0:
                 raise serializers.ValidationError({
                     'balance': 'Not enough points.'
+                })
+            if Purchase.objects.filter(
+                    item_type=validated_data['item_type'],
+                    item_id=validated_data['item_id'],
+                    transaction_to_id=settings.TRANSACTION_STAGING_ACCOUNT_ID,
+                    state=STATE[0][0]
+            ).exists():
+                raise serializers.ValidationError({
+                    'purchase': 'Already paid for chatting with answerer.'
                 })
             validated_data['amount'] = ITEM_PRICE[ITEM_TYPE[0]]
         elif validated_data['item_type'].name == ITEM_TYPE[1]:
