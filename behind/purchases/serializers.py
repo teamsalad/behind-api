@@ -20,7 +20,7 @@ class CreatePurchaseSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         if validated_data['item_type'] == ITEM_TYPE[0]:
-            if self.context['request'].user.balance() - ITEM_PRICE[ITEM_TYPE[0]] <= 0:
+            if self.context['request'].user.balance() - ITEM_PRICE[ITEM_TYPE[0]] < 0:
                 raise serializers.ValidationError({
                     'balance': 'Not enough points.'
                 })
