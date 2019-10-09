@@ -14,7 +14,7 @@ class QuestionFeedView(ListAPIView):
     # TODO: Add role related permissions
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = QuestionListSerializer
-    queryset = Question.objects.all()
+    queryset = Question.objects.all().order_by('-created_at')
 
 
 class QuestionListView(ListAPIView):
@@ -25,7 +25,7 @@ class QuestionListView(ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return self.request.user.questions.all()
+        return self.request.user.questions.order_by('-created_at')
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
@@ -65,7 +65,7 @@ class AnswerListView(ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return self.request.user.answers.all()
+        return self.request.user.answers.order_by('-created_at')
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
