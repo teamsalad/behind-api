@@ -168,6 +168,7 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
 ACCOUNT_EMAIL_SUBJECT_PREFIX = None
 
+OLD_PASSWORD_FIELD_ENABLED = True
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
