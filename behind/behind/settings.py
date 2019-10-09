@@ -145,6 +145,7 @@ LOGIN_REDIRECT_URL = None
 # Authentication & Authorization
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'users.serializers.UserDetailsSerializer',
+    'PASSWORD_RESET_SERIALIZER': 'users.serializers.UserPasswordResetSerializer'
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {
