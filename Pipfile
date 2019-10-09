@@ -17,6 +17,7 @@ django-dotenv = "*"
 channels = "*"
 channels-redis = "*"
 fcm-django = "*"
+mysqlclient = "*"
 
 [requires]
 python_version = "3.7"
