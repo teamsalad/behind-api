@@ -18,7 +18,7 @@ class PurchaseListView(ListAPIView):
         return Purchase.objects.filter(
             Q(transaction_from=self.request.user.id) |
             Q(transaction_to=self.request.user.id)
-        )
+        ).order_by('-created_at')
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
