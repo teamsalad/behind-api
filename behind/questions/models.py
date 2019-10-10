@@ -27,6 +27,9 @@ class Question(models.Model):
     def __str__(self):
         return f'Question {self.id} {self.content}'
 
+    class Meta:
+        db_table = "questions"
+
 
 class Answer(models.Model):
     content = models.TextField()
@@ -45,3 +48,6 @@ class Answer(models.Model):
 
     def __str__(self):
         return f'Answer {self.id} {self.content}'
+
+    class Meta:
+        db_table = "answers"
