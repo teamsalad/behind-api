@@ -72,6 +72,7 @@ class CreateAnswerSerializer(serializers.ModelSerializer):
         if device is not None:
             device.send_message(
                 body=f'{question.questioner.nickename}님, 재직자님의 답변이 도착했어요! 지금 바로 확인해보세요.',
+                sound='default',
                 data={'question_id': question.id}
             )
         return new_answer

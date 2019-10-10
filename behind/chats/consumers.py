@@ -136,6 +136,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             device.send_message(
                 title=self.user.username,
                 body=message,
+                sound='default',
                 data={'chat_room_id': self.chat_room_id}
             )
 
