@@ -26,6 +26,7 @@ from questions.views import (
     AnswerDetailView,
     QuestionFeedView,
 )
+from settings.views import PushNotificationSettingView
 
 admin.site.site_header = "The Behind Administration"
 admin.site.site_title = "Welcome to Behind Administration"
@@ -39,6 +40,7 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/docs/users/', include('rest_framework.urls')),
     path('api/v1/users/', include('users.urls')),
+    path('api/v1/users/push-notification-settings/', PushNotificationSettingView.as_view()),
     path('api/v1/user-job-histories/', include('companies.urls')),
     path('api/v1/companies/', CompanyListView.as_view()),
     path('api/v1/jobs/', JobListView.as_view()),
