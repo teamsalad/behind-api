@@ -131,9 +131,13 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             .exclude(user_id=user_id) \
             .first()
         user = User.objects.get(id=other_participant.user_id)
-        active_device = user.fcmdevice_set.filter(active=True).first()
-        if active_device is not None:
-            active_device.send_message(title=self.user.username, body=message)
+        device = user.active_device()
+        if device is not None:
+            device.send_message(
+                title=self.user.username,
+                body=message,
+                data={'chat_room_id': self.chat_room_id}
+            )
 
     async def chat_state(self, event):
         await self.send_json({

@@ -57,6 +57,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         return (self.incomings.aggregate(Sum('amount'))['amount__sum'] or 0) - \
                (self.outgoings.aggregate(Sum('amount'))['amount__sum'] or 0)
 
+    def active_device(self):
+        """
+        Get active device
+        :return: active device
+        """
+        return self.fcmdevice_set.filter(active=True).first()
+
     def __str__(self):
         return f'User {self.email}'
 
