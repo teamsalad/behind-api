@@ -2,6 +2,7 @@ from rest_framework import permissions, status
 from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 
+from behind.pagination import CreatedAtCursorPagination
 from questions.models import Question
 from questions.serializers import (
     CreateQuestionSerializer,
@@ -15,6 +16,7 @@ class QuestionFeedView(ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = QuestionListSerializer
     queryset = Question.objects.all().order_by('-created_at')
+    pagination_class = CreatedAtCursorPagination
 
 
 class QuestionListView(ListAPIView):
@@ -23,6 +25,7 @@ class QuestionListView(ListAPIView):
     create questions
     """
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = CreatedAtCursorPagination
 
     def get_queryset(self):
         return self.request.user.questions.order_by('-created_at')
@@ -63,6 +66,7 @@ class AnswerListView(ListAPIView):
     """
     # TODO: Add role related permissions
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = CreatedAtCursorPagination
 
     def get_queryset(self):
         return self.request.user.answers.order_by('-created_at')

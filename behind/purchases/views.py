@@ -3,6 +3,7 @@ from rest_framework import status, permissions
 from rest_framework.generics import ListAPIView, GenericAPIView
 from rest_framework.response import Response
 
+from behind.pagination import CreatedAtCursorPagination
 from purchases.models import Purchase
 from purchases.serializers import CreatePurchaseSerializer, PurchaseSerializer
 
@@ -13,6 +14,7 @@ class PurchaseListView(ListAPIView):
     Purchase an item (answer, payment)
     """
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = CreatedAtCursorPagination
 
     def get_queryset(self):
         return Purchase.objects.filter(
