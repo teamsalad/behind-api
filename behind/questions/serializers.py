@@ -63,9 +63,17 @@ class CreateAnswerSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
+        question = validated_data.pop('question_id')
         validated_data['answerer'] = self.context['request'].user
-        validated_data['question_id'] = validated_data['question_id'].id
-        return Answer.objects.create(**validated_data)
+        validated_data['question_id'] = question.id
+        new_answer = Answer.objects.create(**validated_data)
+        device = question.questioner.active_device()
+        if device is not None:
+            device.send_message(
+                body=f'{question.questioner.nickename}님, 재직자님의 답변이 도착했어요! 지금 바로 확인해보세요.',
+                data={'question_id': question.id}
+            )
+        return new_answer
 
     class Meta:
         model = Answer
