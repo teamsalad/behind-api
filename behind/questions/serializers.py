@@ -52,7 +52,8 @@ class QuestionListSerializer(serializers.ModelSerializer):
 class CreateAnswerSerializer(serializers.ModelSerializer):
     content = serializers.CharField(
         required=True,
-        allow_blank=False
+        allow_blank=False,
+        min_length=20
     )
     question_id = serializers.PrimaryKeyRelatedField(
         required=True,
