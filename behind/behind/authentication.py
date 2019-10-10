@@ -15,11 +15,11 @@ class TokenAuthMiddleware:
         headers = dict(scope['headers'])
         if b'authorization' in headers:
             try:
+                close_old_connections()
                 token_name, token_key = headers[b'authorization'].decode().split()
                 if token_name == 'Token':
                     token = Token.objects.get(key=token_key)
                     scope['user'] = token.user
-                    close_old_connections()
             except Token.DoesNotExist:
                 scope['user'] = AnonymousUser()
         return self.inner(scope)
