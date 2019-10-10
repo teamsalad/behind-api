@@ -68,10 +68,10 @@ class CreateAnswerSerializer(serializers.ModelSerializer):
         validated_data['answerer'] = self.context['request'].user
         validated_data['question_id'] = question.id
         new_answer = Answer.objects.create(**validated_data)
-        device = question.questioner.active_device()
-        if device is not None:
-            device.send_message(
-                body=f'{question.questioner.nickename}님, 재직자님의 답변이 도착했어요! 지금 바로 확인해보세요.',
+        questioner = question.questioner
+        if questioner.can_send_push_notification('asked'):
+            questioner.active_device().send_message(
+                body=f'{questioner.nickename}님, 재직자님의 답변이 도착했어요! 지금 바로 확인해보세요.',
                 sound='default',
                 data={'question_id': question.id}
             )

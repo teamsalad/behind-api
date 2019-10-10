@@ -131,9 +131,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             .exclude(user_id=user_id) \
             .first()
         user = User.objects.get(id=other_participant.user_id)
-        device = user.active_device()
-        if device is not None:
-            device.send_message(
+        if user.can_send_push_notification('chat'):
+            user.active_device().send_message(
                 title=self.user.username,
                 body=message,
                 sound='default',

@@ -4,6 +4,7 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db.models import Sum
 
 from companies.models import Company, Job
+from settings.models import PushNotificationSetting
 
 ROLES = (
     (1, "job_seeker"),
@@ -63,6 +64,17 @@ class User(AbstractBaseUser, PermissionsMixin):
         :return: active device
         """
         return self.fcmdevice_set.filter(active=True).first()
+
+    def can_send_push_notification(self, setting):
+        """
+        Check whether push notifications are available
+        :param setting: push notification setting
+        :return: push notifications availability
+        """
+        push_notification_settings, created = \
+            PushNotificationSetting.objects.get_or_create(user=self)
+        device_available = self.active_device() is not None
+        return getattr(push_notification_settings, setting) and device_available
 
     def __str__(self):
         return f'User {self.email}'
