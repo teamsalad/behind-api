@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from settings.models import PushNotificationSetting
+
+
+class PushNotificationSettingAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
+
+
+admin.site.register(PushNotificationSetting, PushNotificationSettingAdmin)
