@@ -1,8 +1,10 @@
 from django.db import transaction
+from fcm_django.models import FCMDevice
 from rest_framework import serializers
 
-from companies.models import Job, Company
+from companies.models import Job, Company, UserJobHistory
 from companies.serializers import JobSerializer, CompanySerializer
+from users.models import User
 from users.serializers import UserDetailsSerializer
 from questions.models import Question, Answer
 
@@ -104,10 +106,31 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-        validated_data['job_id'] = validated_data['job_id'].id
-        validated_data['company_id'] = validated_data['company_id'].id
+        # user_id__in=user_ids
+        company = validated_data['company_id']
+        job = validated_data['job_id']
+        validated_data['job_id'] = company.id
+        validated_data['company_id'] = job.id
         validated_data['questioner'] = self.context['request'].user
-        return Question.objects.create(**validated_data)
+        new_question = Question.objects.create(**validated_data)
+        # Send push notifications to employees who can answer
+        employee_ids = UserJobHistory.objects \
+            .filter(company=company, job=job) \
+            .values_list('user_id', flat=True).distinct()
+        notifiable_employee_ids = User.objects \
+            .select_related('push_notification_setting') \
+            .filter(id__in=employee_ids, asked=True) \
+            .values_list('id', flat=True)
+        devices = FCMDevice.objects.filter(
+            user_id__in=notifiable_employee_ids,
+            active=True
+        ).all()
+        devices.send_message(
+            body=f'구직자님이 {company.name} 관련 상담을 요청하셨어요! 지금 바로 상담하고 따뜻한 커피 한잔 할까요?',
+            sound='default',
+            data={'question_id': new_question.id}
+        )
+        return new_question
 
     class Meta:
         model = Question
