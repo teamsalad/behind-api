@@ -4,6 +4,7 @@ from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
 from rest_auth.serializers import PasswordResetSerializer
 
+from settings.models import PushNotificationSetting
 from users.models import ROLES
 from companies.serializers import UserJobHistorySerializer
 
@@ -23,6 +24,7 @@ class UserRegisterSerializer(RegisterSerializer):
     def custom_signup(self, request, user):
         user.full_name = request.data['full_name']
         user.role = request.data['role']
+        user.push_notification_setting = PushNotificationSetting.objects.create(user=user)
         user.save()
 
     @transaction.atomic
