@@ -26,7 +26,7 @@ class QuestionFeedView(ListAPIView):
     pagination_class = CreatedAtCursorPagination
 
     def get_queryset(self):
-        job_histories = self.request.user.job_histories
+        job_histories = self.request.user.job_histories.all()
         query = reduce(lambda x, y: x | y, [Q(company=item.company, job=item.job) for item in job_histories])
         return Question.objects.filter(query)
 
