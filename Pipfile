@@ -18,6 +18,7 @@ channels = "*"
 channels-redis = "*"
 fcm-django = "*"
 mysqlclient = "*"
+version-parser = "*"
 
 [requires]
 python_version = "3.7"
