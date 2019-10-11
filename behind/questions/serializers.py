@@ -71,7 +71,7 @@ class CreateAnswerSerializer(serializers.ModelSerializer):
         questioner = question.questioner
         if questioner.can_send_push_notification('asked'):
             questioner.active_device().send_message(
-                body=f'{questioner.nickename}님, 재직자님의 답변이 도착했어요! 지금 바로 확인해보세요.',
+                body=f'{questioner.username}님, 재직자님의 답변이 도착했어요! 지금 바로 확인해보세요.',
                 sound='default',
                 data={'question_id': question.id}
             )
