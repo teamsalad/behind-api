@@ -8,6 +8,7 @@ from rest_framework.response import Response
 
 from behind.pagination import CreatedAtCursorPagination
 from questions.models import Question
+from questions.permissions import IsQuestionOwnerOrReadOnly, IsAnswerOwnerOrReadOnly
 from questions.serializers import (
     CreateQuestionSerializer,
     QuestionListSerializer,
@@ -61,11 +62,10 @@ class QuestionListView(ListAPIView):
 
 
 class QuestionDetailView(RetrieveUpdateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsQuestionOwnerOrReadOnly]
     serializer_class = QuestionListSerializer
     lookup_field = 'id'
 
-    # TODO: Add my resource permission 'isQuestionOwner'
     def get_queryset(self):
         return self.request.user.questions.all()
 
@@ -101,10 +101,9 @@ class AnswerListView(ListAPIView):
 
 
 class AnswerDetailView(RetrieveUpdateAPIView):
-    permission_classes = [IsAuthenticated, IsRoleEmployee]
+    permission_classes = [IsAuthenticated, IsRoleEmployee, IsAnswerOwnerOrReadOnly]
     serializer_class = AnswerListSerializer
     lookup_field = 'id'
 
-    # TODO: Add my resource permission 'isAnswerOwner'
     def get_queryset(self):
         return self.request.user.answers.all()
