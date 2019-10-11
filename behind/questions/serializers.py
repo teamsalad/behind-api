@@ -119,7 +119,7 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
             .values_list('user_id', flat=True).distinct()
         notifiable_employee_ids = User.objects \
             .select_related('push_notification_setting') \
-            .filter(id__in=employee_ids, asked=True) \
+            .filter(id__in=employee_ids, push_notification_setting__asked=True) \
             .values_list('id', flat=True)
         devices = FCMDevice.objects.filter(
             user_id__in=notifiable_employee_ids,
