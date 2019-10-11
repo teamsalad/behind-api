@@ -1,4 +1,8 @@
-from rest_framework import permissions, status
+from functools import reduce
+
+from django.db.models import Q
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 
@@ -9,14 +13,21 @@ from questions.serializers import (
     QuestionListSerializer,
     CreateAnswerSerializer,
     AnswerListSerializer)
+from users.permissions import IsRoleEmployee
 
 
 class QuestionFeedView(ListAPIView):
-    # TODO: Add role related permissions
-    permission_classes = [permissions.IsAuthenticated]
+    """
+    List questions that need to be answered
+    """
+    permission_classes = [IsAuthenticated, IsRoleEmployee]
     serializer_class = QuestionListSerializer
-    queryset = Question.objects.all().order_by('-created_at')
     pagination_class = CreatedAtCursorPagination
+
+    def get_queryset(self):
+        job_histories = self.request.user.job_histories
+        query = reduce(lambda x, y: x | y, [Q(company=item.company, job=item.job) for item in job_histories])
+        return Question.objects.filter(query)
 
 
 class QuestionListView(ListAPIView):
@@ -24,7 +35,7 @@ class QuestionListView(ListAPIView):
     List questions with answers and
     create questions
     """
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     pagination_class = CreatedAtCursorPagination
 
     def get_queryset(self):
@@ -50,7 +61,7 @@ class QuestionListView(ListAPIView):
 
 
 class QuestionDetailView(RetrieveUpdateAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     serializer_class = QuestionListSerializer
     lookup_field = 'id'
 
@@ -64,8 +75,7 @@ class AnswerListView(ListAPIView):
     List my answers and
     create answers
     """
-    # TODO: Add role related permissions
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsRoleEmployee]
     pagination_class = CreatedAtCursorPagination
 
     def get_queryset(self):
@@ -91,7 +101,7 @@ class AnswerListView(ListAPIView):
 
 
 class AnswerDetailView(RetrieveUpdateAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsRoleEmployee]
     serializer_class = AnswerListSerializer
     lookup_field = 'id'
 
