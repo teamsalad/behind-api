@@ -3,6 +3,7 @@ from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 
 from chats.models import ChatRoom
+from chats.permissions import IsChatRoomParticipant
 from chats.serializers import CreateChatRoomSerializer, ChatRoomSerializer
 
 
@@ -26,8 +27,7 @@ class ChatRoomCreateView(CreateAPIView):
 
 
 class ChatRoomDetailView(RetrieveUpdateAPIView):
-    # TODO: Check whether user is a participant
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsChatRoomParticipant]
     serializer_class = ChatRoomSerializer
     queryset = ChatRoom.objects.all()
     lookup_field = 'id'
