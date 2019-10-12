@@ -15,7 +15,7 @@ RELEASE_STATE = (
 UPDATE_STATE = (
     (1, 'no_alert'),
     (2, 'alert'),
-    (2, 'force_alert'),
+    (3, 'force_alert'),
 )
 
 
