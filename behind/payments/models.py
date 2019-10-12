@@ -2,6 +2,8 @@ from django.db import models
 from djmoney.models.fields import MoneyField
 from django_mysql.models import JSONField
 
+from behind import settings
+
 AUTHORITY = (
     (1, 'behind'),
     (2, 'pg'),
@@ -41,6 +43,11 @@ class Payment(models.Model):
     responded_at = models.DateTimeField()
     status = models.SmallIntegerField(choices=STATUS, default=STATUS[0][0])
     authority = models.SmallIntegerField(choices=AUTHORITY, default=AUTHORITY[1][0])
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='payments'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
