@@ -19,6 +19,7 @@ channels-redis = "*"
 fcm-django = "*"
 mysqlclient = "*"
 version-parser = "*"
+django-debug-toolbar = "*"
 
 [requires]
 python_version = "3.7"
