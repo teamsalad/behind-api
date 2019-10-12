@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'channels',
     'fcm_django',
     'debug_toolbar',
+    'djmoney',
     'users',
     'companies',
     'questions',
