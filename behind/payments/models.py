@@ -1,5 +1,6 @@
 from django.db import models
 from djmoney.models.fields import MoneyField
+from django_mysql.models import JSONField
 
 AUTHORITY = (
     (1, 'behind'),
@@ -35,6 +36,7 @@ class Payment(models.Model):
     method_alias = models.CharField(max_length=20)
     pg_name = models.CharField(max_length=100)
     method_name = models.CharField(max_length=100)
+    pg_response = JSONField()
     requested_at = models.DateTimeField(auto_now_add=True)
     responded_at = models.DateTimeField()
     status = models.SmallIntegerField(choices=STATUS, default=STATUS[0][0])
