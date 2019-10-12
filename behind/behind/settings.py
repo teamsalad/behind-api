@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'fcm_django',
     'debug_toolbar',
     'djmoney',
+    'django_mysql',
     'users',
     'companies',
     'questions',
