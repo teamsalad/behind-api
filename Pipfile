@@ -20,6 +20,7 @@ fcm-django = "*"
 mysqlclient = "*"
 version-parser = "*"
 django-debug-toolbar = "*"
+django-money = "*"
 
 [requires]
 python_version = "3.7"
