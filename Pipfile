@@ -21,6 +21,7 @@ mysqlclient = "*"
 version-parser = "*"
 django-debug-toolbar = "*"
 django-money = "*"
+django-mysql = "*"
 
 [requires]
 python_version = "3.7"
