@@ -18,6 +18,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from fcm_django.api.rest_framework import FCMDeviceAuthorizedViewSet
+
+from behind import settings
 from companies.views import CompanyListView, JobListView
 from questions.views import (
     QuestionListView,
@@ -53,3 +55,9 @@ urlpatterns = [
     path('api/v1/purchases/', include('purchases.urls')),
     path('api/v1/app-version/<device_type>/', AppVersionView.as_view()),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls))
+    ] + urlpatterns

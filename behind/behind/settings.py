@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'channels',
     'fcm_django',
+    'debug_toolbar',
     'users',
     'companies',
     'questions',
@@ -88,6 +89,7 @@ CHANNEL_LAYERS = {
 }
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -212,3 +214,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+def show_toolbar(request):
+    return DEBUG
+
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': 'behind.settings.show_toolbar',
+}
