@@ -22,6 +22,8 @@ version-parser = "*"
 django-debug-toolbar = "*"
 django-money = "*"
 django-mysql = "*"
+boto3 = "*"
+django-storages = "*"
 
 [requires]
 python_version = "3.7"
