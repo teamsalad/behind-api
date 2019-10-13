@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from rewards.models import Gifticon
+
+
+class GifticonAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
+
+
+admin.site.register(Gifticon, GifticonAdmin)
