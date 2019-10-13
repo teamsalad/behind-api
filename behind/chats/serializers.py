@@ -5,17 +5,17 @@ from django.db import transaction
 from rest_framework import serializers
 
 from behind import settings
-from purchases.models import Purchase, STATE, ITEM_COMMISSION, ITEM_PRICE
-from rewards.models import Gifticon
-from users.models import User
-from users.serializers import UserDetailsSerializer
-from questions.models import Answer
 from chats.models import (
     ChatRoom,
     ChatMessage,
     ChatParticipant,
     STATUS
 )
+from purchases.models import Purchase, STATE
+from questions.models import Answer
+from rewards.models import Gifticon
+from users.models import User
+from users.serializers import UserDetailsSerializer
 
 
 class ChatParticipantSerializer(serializers.ModelSerializer):
@@ -121,7 +121,7 @@ class ChatRoomSerializer(serializers.ModelSerializer):
             unavailable_gifticon_ids = Purchase.objects.select_for_update() \
                 .filter(item_type=gifticon_type) \
                 .values_list('item_id', flat=True)
-            available_gifticon = Gifticon.objects.select_for_update(nowait=True) \
+            available_gifticon = Gifticon.objects.select_for_update() \
                 .exclude(id__in=unavailable_gifticon_ids) \
                 .order_by('-expired_at') \
                 .first()
