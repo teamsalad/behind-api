@@ -6,6 +6,7 @@ from rest_framework import serializers
 
 from behind import settings
 from purchases.models import Purchase, STATE, ITEM_COMMISSION, ITEM_PRICE
+from rewards.models import Gifticon
 from users.models import User
 from users.serializers import UserDetailsSerializer
 from questions.models import Answer
@@ -99,12 +100,9 @@ class ChatRoomSerializer(serializers.ModelSerializer):
                 app_label='questions',
                 model='answer'
             )
-            transaction_staging_user = User.objects.get(
-                id=settings.TRANSACTION_STAGING_ACCOUNT_ID
-            )
             # Find and change the transaction to committed
             staging_purchase = Purchase.objects.filter(
-                transaction_to=transaction_staging_user,
+                transaction_to_id=settings.TRANSACTION_STAGING_ACCOUNT_ID,
                 item_id=instance.answer.id,
                 item_type=answer_type,
                 state=STATE[0][0]
@@ -115,13 +113,36 @@ class ChatRoomSerializer(serializers.ModelSerializer):
                 })
             staging_purchase.state = STATE[1][0]
             staging_purchase.save()
-            # Send reward to the answerer
+            # Send gifticon reward to answerer
+            gifticon_type = ContentType.objects.get(
+                app_label='rewards',
+                model='gifticon'
+            )
+            unavailable_gifticon_ids = Purchase.objects.select_for_update() \
+                .filter(item_type=gifticon_type) \
+                .values_list('item_id', flat=True)
+            available_gifticon = Gifticon.objects.select_for_update(nowait=True) \
+                .exclude(id__in=unavailable_gifticon_ids) \
+                .order_by('-expired_at') \
+                .first()
+            if available_gifticon is None:
+                raise serializers.ValidationError({
+                    'gifticon': 'No gifticons left to reward.'
+                })
             Purchase.objects.create(
-                amount=ITEM_PRICE[answer_type.name] - ITEM_COMMISSION[answer_type.name],
-                transaction_from=transaction_staging_user,
+                amount=available_gifticon.point_price,
+                transaction_from_id=settings.TRANSACTION_STAGING_ACCOUNT_ID,
                 transaction_to=instance.answer.answerer,
                 item_id=instance.answer.id,
                 item_type=answer_type,
+                state=STATE[1][0]
+            )
+            Purchase.objects.create(
+                amount=available_gifticon.point_price,
+                transaction_from=instance.answer.answerer,
+                transaction_to_id=settings.TRANSACTION_STAGING_ACCOUNT_ID,
+                item_id=available_gifticon.id,
+                item_type=gifticon_type,
                 state=STATE[1][0]
             )
             # Change chat room status to stopped
