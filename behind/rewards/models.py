@@ -12,6 +12,7 @@ class Gifticon(models.Model):
         default_currency='KRW'
     )
     barcode_number = models.CharField(max_length=100)
+    supplier = models.CharField(max_length=100)
     expired_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
