@@ -55,6 +55,7 @@ urlpatterns = [
     path('api/v1/purchases/', include('purchases.urls')),
     path('api/v1/app-version/<device_type>/', AppVersionView.as_view()),
     path('api/v1/objects/', include('objects.urls')),
+    path('_/health/', include('health_check.urls')),
 ]
 
 if settings.DEBUG:
