@@ -1,9 +1,11 @@
+from django.http import Http404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.response import Response
 
-from objects.serializers import CreateObjectSerializer
+from objects.models import Object
+from objects.serializers import CreateObjectSerializer, AliasObjectSerializer, STATE
 
 
 class ObjectCreateView(CreateAPIView):
@@ -23,3 +25,13 @@ class ObjectCreateView(CreateAPIView):
             status=status.HTTP_400_BAD_REQUEST
         )
 
+
+class ObjectAliasView(UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = AliasObjectSerializer
+
+    def get_object(self):
+        try:
+            return Object.objects.get(name=self.kwargs['name'], state=STATE[0][0])
+        except Object.DoesNotExist:
+            raise Http404()

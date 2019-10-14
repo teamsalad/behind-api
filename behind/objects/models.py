@@ -1,7 +1,3 @@
-import datetime
-
-from nanoid import generate
-
 from django.db import models
 
 STATE = (
@@ -23,13 +19,7 @@ def unique_filename(instance, filename):
         }
         return paths[TYPE[instance.type - 1][1]]
 
-    # Nano id(Better uuid) + timestamp + file extension
-    timestamp = int(datetime.datetime.now().timestamp() * 10 ** 6)
-    file_extension = filename.rsplit('.', 1)[1].lower()
-    name = f"{file_path()}/{generate(size=32)}_{str(timestamp)}.{file_extension}"
-    instance.name = name
-    instance.link_alias = name
-    return name
+    return f"{file_path()}/{instance.name}"
 
 
 class Object(models.Model):
