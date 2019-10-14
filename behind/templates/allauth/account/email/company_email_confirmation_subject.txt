@@ -1,4 +1,4 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}아퀴나스가 결제 올립니다!{% endblocktrans %}
+{% blocktrans %}아퀴나스가 결재 올립니다!{% endblocktrans %}
 {% endautoescape %}
