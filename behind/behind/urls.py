@@ -54,6 +54,7 @@ urlpatterns = [
     path('api/v1/chat_rooms/', include('chats.urls')),
     path('api/v1/purchases/', include('purchases.urls')),
     path('api/v1/app-version/<device_type>/', AppVersionView.as_view()),
+    path('api/v1/objects/', include('objects.urls')),
 ]
 
 if settings.DEBUG:
