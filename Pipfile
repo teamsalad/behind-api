@@ -24,6 +24,7 @@ django-money = "*"
 django-mysql = "*"
 boto3 = "*"
 django-storages = "*"
+nanoid = "*"
 
 [requires]
 python_version = "3.7"
