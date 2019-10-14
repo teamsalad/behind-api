@@ -7,9 +7,6 @@ class CreateObjectSerializer(serializers.ModelSerializer):
     type = serializers.ChoiceField(choices=TYPE)
     object = serializers.FileField()
 
-    def create(self, validated_data):
-        return Object.objects.create(**validated_data)
-
     class Meta:
         model = Object
         fields = (
