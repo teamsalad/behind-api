@@ -29,6 +29,13 @@ class CompanySerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'name', 'email_domain', 'jobs',)
 
 
+class CompanyListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ('id', 'name',)
+        read_only_fields = ('id', 'name',)
+
+
 class CreateUserJobHistorySerializer(serializers.ModelSerializer):
     company_email = serializers.EmailField(
         write_only=True,

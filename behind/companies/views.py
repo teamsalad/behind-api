@@ -3,16 +3,16 @@ from django.http import Http404
 from django.views.generic.base import TemplateResponseMixin, View
 from rest_framework import permissions, status
 from rest_framework.exceptions import ValidationError
-from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
+from rest_framework.response import Response
 
 from behind import settings
 from companies.models import Company, Job, UserJobHistory
 from .serializers import (
     UserJobHistorySerializer,
     CreateUserJobHistorySerializer,
-    CompanySerializer,
     JobSerializer,
+    CompanyListSerializer
 )
 
 
@@ -76,7 +76,7 @@ class UserJobHistoryListView(ListAPIView):
 
 class CompanyListView(ListAPIView):
     permission_classes = [permissions.AllowAny]
-    serializer_class = CompanySerializer
+    serializer_class = CompanyListSerializer
     queryset = Company.objects.all()
 
 
