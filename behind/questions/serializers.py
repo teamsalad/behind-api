@@ -109,8 +109,8 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
         # user_id__in=user_ids
         company = validated_data['company_id']
         job = validated_data['job_id']
-        validated_data['job_id'] = company.id
-        validated_data['company_id'] = job.id
+        validated_data['job_id'] = job.id
+        validated_data['company_id'] = company.id
         validated_data['questioner'] = self.context['request'].user
         new_question = Question.objects.create(**validated_data)
         # Send push notifications to employees who can answer
