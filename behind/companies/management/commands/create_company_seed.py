@@ -27,6 +27,9 @@ class Command(BaseCommand):
         jobs = Job.objects.all()
         for company_object in company_list_json:
             # Create company instance
+            if Company.objects.filter(name=company_object['name']).exists():
+                self.stdout.write(self.style.ERROR(f"{company_object['name']} already exists."))
+                continue
             company = Company.objects.create(
                 name=company_object['name'],
                 email_domain='thebehind.com'
