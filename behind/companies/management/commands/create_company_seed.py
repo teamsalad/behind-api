@@ -10,7 +10,7 @@ from django.core import files
 from django.core.management.base import BaseCommand
 from nanoid import generate
 
-from companies.models import Company
+from companies.models import Company, Job
 from objects.models import Object, TYPE, STATE
 
 
@@ -24,12 +24,15 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Starting company seed data creation ...'))
         company_list_json_file = codecs.open(options['company_list'].name, 'r', 'utf-8-sig')
         company_list_json = json.load(company_list_json_file)
+        jobs = Job.objects.all()
         for company_object in company_list_json:
             # Create company instance
             company = Company.objects.create(
                 name=company_object['name'],
                 email_domain='thebehind.com'
             )
+            company.jobs.set(jobs)
+            company.save()
             # Download image
             request = requests.get(company_object['image_url'].rsplit('?', 1)[0], stream=True)
             if request.status_code != requests.codes.ok:

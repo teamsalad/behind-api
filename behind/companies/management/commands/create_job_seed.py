@@ -21,5 +21,5 @@ class Command(BaseCommand):
         ]
         jobs = Job.objects.bulk_create([Job(title=title) for title in job_titles])
         for job in jobs:
-            self.stdout.write(self.style.SUCCESS(f'Job: {job.id} {job.title}'))
+            self.stdout.write(self.style.SUCCESS(f'Job: {job.title}'))
         self.stdout.write(self.style.SUCCESS('Done'))
