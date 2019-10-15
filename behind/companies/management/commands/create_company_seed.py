@@ -1,15 +1,14 @@
+import codecs
 import datetime
 import json
-import codecs
-import requests
 import tempfile
 import time
-from nanoid import generate
-
-from django.core import files
-
-from django.core.management.base import BaseCommand, CommandError
 from argparse import FileType
+
+import requests
+from django.core import files
+from django.core.management.base import BaseCommand
+from nanoid import generate
 
 from companies.models import Company
 from objects.models import Object, TYPE, STATE
