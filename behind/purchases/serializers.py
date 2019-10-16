@@ -64,10 +64,15 @@ class CreatePurchaseSerializer(serializers.ModelSerializer):
 
 
 class PurchaseSerializer(serializers.ModelSerializer):
+    item_type = serializers.SerializerMethodField(read_only=True)
+
+    def get_item_type(self, obj):
+        return ContentType.objects.get_for_model(obj.item).name
+
     class Meta:
         model = Purchase
         fields = (
-            'id', 'amount', 'item_type', 'item_id',
+            'id', 'amount', 'item_id', 'item_type',
             'transaction_from', 'transaction_to',
             'type', 'state', 'created_at',
         )
