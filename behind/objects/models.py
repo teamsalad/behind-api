@@ -35,5 +35,8 @@ class Object(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f'Object {TYPE[self.type - 1][1]} {STATE[self.state - 1][1]}'
+
     class Meta:
         db_table = 'objects'
