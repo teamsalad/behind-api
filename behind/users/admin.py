@@ -7,6 +7,11 @@ from users.models import User
 
 class UserAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
+    list_display = (
+        'email', 'full_name',
+        'username', 'role',
+        'is_active', 'is_staff',
+    )
     actions = ['give_10k_points', 'give_100k_points']
 
     def give_10k_points(self, request, queryset):
