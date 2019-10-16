@@ -153,8 +153,10 @@ class ChatRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatRoom
         fields = (
-            'id', 'state', 'participants', 'messages', 'time_left', 'created_at',
+            'id', 'state', 'participants', 'messages',
+            'answer', 'time_left', 'created_at',
         )
         read_only_fields = (
-            'id', 'participants', 'messages', 'time_left', 'created_at',
+            'id', 'participants', 'messages',
+            'answer', 'time_left', 'created_at',
         )
