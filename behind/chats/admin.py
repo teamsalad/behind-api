@@ -9,14 +9,17 @@ from chats.models import (
 
 class ChatRoomAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
+    list_display = ('answer', 'time_left', 'state',)
 
 
 class ChatParticipantAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
+    list_display = ('chat_room', 'user',)
 
 
 class ChatMessageAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
+    list_display = ('chat_room', 'user', 'message',)
 
 
 admin.site.register(ChatParticipant, ChatParticipantAdmin)
