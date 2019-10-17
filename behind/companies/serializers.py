@@ -136,7 +136,7 @@ class CreateUserJobHistorySerializer(serializers.ModelSerializer):
         fields = (
             'id', 'company', 'job', 'job_id', 'confirmation_method',
             'confirmation_information', 'confirmed', 'created_at',
-            'company_email',
+            'company_email', 'company_name',
         )
         read_only_fields = (
             'id', 'company', 'job',
