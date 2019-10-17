@@ -1,6 +1,5 @@
 from django.contrib.contenttypes.models import ContentType
-from django.http import Http404, HttpResponseForbidden
-from django.shortcuts import redirect
+from django.http import Http404, HttpResponseForbidden, HttpResponseRedirect
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
@@ -69,4 +68,4 @@ class ObjectRetrieveView(APIView):
             ).exists()
             if not gifticon_owner:
                 return HttpResponseForbidden()
-        return redirect(aliased_object.object.url)
+        return HttpResponseRedirect(aliased_object.object.url)
