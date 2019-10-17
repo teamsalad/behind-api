@@ -1,7 +1,6 @@
 from django.contrib.contenttypes.models import ContentType
 from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import redirect
-from django.views.generic.base import View
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
