@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from behind import settings
 from objects.models import Object
@@ -42,7 +43,9 @@ class ObjectAliasView(UpdateAPIView):
             raise Http404()
 
 
-class ObjectRetrieveView(View):
+class ObjectRetrieveView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get_object(self):
         try:
             link_alias = f"{self.kwargs['type']}/{self.kwargs['id']}/"
@@ -58,7 +61,7 @@ class ObjectRetrieveView(View):
                 app_label='rewards',
                 model='gifticon'
             )
-            gifticon_owner = request.user.is_authenticated and Purchase.objects.filter(
+            gifticon_owner = Purchase.objects.filter(
                 transaction_from=request.user,
                 transaction_to_id=settings.TRANSACTION_STAGING_ACCOUNT_ID,
                 item_type=gifticon_type,
