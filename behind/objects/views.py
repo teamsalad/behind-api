@@ -3,7 +3,7 @@ from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -43,7 +43,7 @@ class ObjectAliasView(UpdateAPIView):
 
 
 class ObjectRetrieveView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_object(self):
         try:
