@@ -9,8 +9,8 @@ from rest_framework.response import Response
 
 from behind import settings
 from objects.models import Object
-from objects.serializers import CreateObjectSerializer, AliasObjectSerializer, STATE
-from purchases.models import Purchase
+from objects.serializers import CreateObjectSerializer, AliasObjectSerializer, STATE as OBJECT_STATE
+from purchases.models import Purchase, STATE as PURCHASE_STATE
 
 
 class ObjectCreateView(CreateAPIView):
@@ -37,7 +37,7 @@ class ObjectAliasView(UpdateAPIView):
 
     def get_object(self):
         try:
-            return Object.objects.get(name=self.kwargs['name'], state=STATE[0][0])
+            return Object.objects.get(name=self.kwargs['name'], state=OBJECT_STATE[0][0])
         except Object.DoesNotExist:
             raise Http404()
 
@@ -46,7 +46,7 @@ class ObjectRetrieveView(View):
     def get_object(self):
         try:
             link_alias = f"{self.kwargs['type']}/{self.kwargs['id']}/"
-            return Object.objects.get(link_alias=link_alias, state=STATE[1][0])
+            return Object.objects.get(link_alias=link_alias, state=OBJECT_STATE[1][0])
         except Object.DoesNotExist:
             raise Http404()
 
@@ -62,7 +62,8 @@ class ObjectRetrieveView(View):
                 transaction_from=request.user,
                 transaction_to_id=settings.TRANSACTION_STAGING_ACCOUNT_ID,
                 item_type=gifticon_type,
-                item_id=kwargs['id']
+                item_id=kwargs['id'],
+                state=PURCHASE_STATE[1][0]
             ).exists()
             if not gifticon_owner:
                 return HttpResponseForbidden()
