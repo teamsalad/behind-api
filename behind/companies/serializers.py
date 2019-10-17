@@ -37,6 +37,11 @@ class CompanyListSerializer(serializers.ModelSerializer):
 
 
 class CreateUserJobHistorySerializer(serializers.ModelSerializer):
+    company_name = serializers.CharField(
+        write_only=True,
+        required=True,
+        max_length=100
+    )
     company_email = serializers.EmailField(
         write_only=True,
         required=True,
@@ -57,18 +62,38 @@ class CreateUserJobHistorySerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         if validated_data.get('confirmation_method') == METHODS[0][0]:
+            company_name = validated_data.pop('company_name')
             company_email = validated_data.pop('company_email')
             company_domain = company_email.split("@")[1]
+            if company_domain in settings.EMAIL_BLACKLIST:
+                raise serializers.ValidationError({
+                    'company_email': 'Not company email domain.'
+                })
             if UserJobHistory.objects.filter(confirmation_information=company_email).exists():
                 raise serializers.ValidationError({
                     'company_email': 'Already exists.'
                 })
             try:
-                validated_data['company'] = Company.objects.get(email_domain=company_domain)
+                company = Company.objects.get(name=company_name)
+                # FIXME: Delete this validation when all 'thebehind.com' are gone
+                # thebehind.com is our initial value for the companies we crawled
+                if company.email_domain == 'thebehind.com':
+                    # TODO: Send Slack message that it's created.
+                    company.email_domain = company_domain
+                    company.save()
+                if company.email_domain != company_domain:
+                    raise serializers.ValidationError({
+                        'company_email': 'Wrong company email.'
+                    })
             except Company.DoesNotExist:
-                raise serializers.ValidationError({
-                    'company_email': 'No company associated with this email domain'
-                })
+                # TODO: Send Slack message that it's created.
+                company = Company.objects.create(
+                    name=company_name,
+                    email_domain=company_domain
+                )
+                company.jobs.set(Job.objects.all())
+                company.save()
+            validated_data['company_id'] = company.id
             validated_data['job_id'] = validated_data['job_id'].id
             validated_data['user'] = self.context['request'].user
             validated_data['confirmation_information'] = company_email

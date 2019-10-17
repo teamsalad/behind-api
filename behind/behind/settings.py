@@ -37,6 +37,11 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL = 'The Behind'
 EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+EMAIL_BLACKLIST = (
+    'gmail.com', 'naver.com', 'hanmail.net', 'daum.net', 'hotmail.com',
+    'nate.com', 'kakao.com', 'outlook.com', 'yahoo.com', 'icloud.com',
+    'aol.com', 'me.com',
+)
 
 # Application definition
 
