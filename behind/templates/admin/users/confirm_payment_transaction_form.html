@@ -1,0 +1,44 @@
+{% extends "admin/base_site.html" %}
+{% load i18n l10n %}
+{% load admin_urls %}
+{% load static %}
+{% block extrastyle %}
+    {{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+        &rsaquo; <a href="{% url 'admin:app_list' app_label=app_label %}">{{ app_label|capfirst|escape }}</a>
+        &rsaquo; <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
+        &rsaquo; {% trans 'Confirm payment transaction' %}
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+        <h1>Confirm payment transaction</h1>
+        <form action="" method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}
+            <fieldset class="module aligned">
+                <div>
+                    <div class="form-row field-charging_points">
+                        {{ form.charging_points.errors }}
+                        <label class="required" for="id_charging_points">{% trans 'Charging points:' %}</label>
+                        {{ form.charging_points }}
+                    </div>
+                </div>
+            </fieldset>
+            <h2>Summary</h2>
+            <ul>
+                {% for user in users %}
+                    <li>{{ user.id }}: {{ user.full_name }} - {{ user.email }}</li>
+                    <input type="hidden" name="_selected_action" value="{{ user.id }}" />
+                {% endfor %}
+            </ul>
+            <div class="submit-row">
+                <input type="hidden" name="action" value="confirm_payment_transaction" />
+                <input type="submit" class="default" name="apply" value="{% trans 'Confirm' %}" />
+            </div>
+        </form>
+    </div>
+{% endblock %}
