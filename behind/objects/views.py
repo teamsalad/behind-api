@@ -7,6 +7,7 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from behind import settings
 from objects.models import Object
 from objects.serializers import CreateObjectSerializer, AliasObjectSerializer, STATE
 from purchases.models import Purchase
@@ -58,7 +59,8 @@ class ObjectRetrieveView(View):
                 model='gifticon'
             )
             gifticon_owner = request.user.is_authenticated and Purchase.objects.filter(
-                transaction_to=request.user,
+                transaction_from=request.user,
+                transaction_to_id=settings.TRANSACTION_STAGING_ACCOUNT_ID,
                 item_type=gifticon_type,
                 item_id=kwargs['id']
             ).exists()
