@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserM
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db.models import Sum
 
+from behind import settings
 from companies.models import Company, Job
 from settings.models import PushNotificationSetting
 
@@ -81,3 +82,19 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = "users"
+
+
+class UserAgreement(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='agreement'
+    )
+    privacy_policy = models.BooleanField(default=False)
+    terms_of_use = models.BooleanField(default=False)
+    marketing_information_reception = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "user_agreements"
