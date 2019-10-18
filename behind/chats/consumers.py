@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
@@ -6,12 +7,15 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from chats.models import ChatMessage, ChatParticipant, ChatRoom
 from users.models import User
 
+logger = logging.getLogger('django.request')
+
 
 class ChatConsumer(AsyncJsonWebsocketConsumer):
     """
     ws/ --> Just for websocket stuff.
     api/ --> HTTP stuff.
     """
+
     async def connect(self):
         """
         Accept connection if user is authorized and
@@ -22,11 +26,13 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         self.chat_room_id = self.scope['url_route']['kwargs']['id']
         self.chat_room_group_name = f'chat_room_{self.chat_room_id}'
         if not self.user.is_authenticated:
+            logger.warning('Anonymous connection occurred')
             await self.disconnect(1000)
         elif not ChatParticipant.objects.filter(
                 chat_room_id=self.chat_room_id,
                 user_id=self.user.id
         ).exists():
+            logger.warning(f'User {self.user.username} not participant of chat room')
             await self.disconnect(1001)
         else:
             await self.channel_layer.group_add(
