@@ -10,7 +10,7 @@ from rest_auth.views import (
     PasswordChangeView
 )
 
-from users.views import UserPasswordResetConfirmView
+from users.views import UserPasswordResetConfirmView, UserDeactivateView
 
 urlpatterns = [
     # URLs that do not require a session or valid token
@@ -27,6 +27,7 @@ urlpatterns = [
     path('user/', UserDetailsView.as_view(), name='rest_user_details'),
     path('password/change/', PasswordChangeView.as_view(),
          name='rest_password_change'),
+    path('deactivate/', UserDeactivateView.as_view(), name='rest_deactivate'),
     # URLs for user registration
     path('registration/', RegisterView.as_view(), name='rest_register'),
     path('registration/confirm-email/',

@@ -1,4 +1,9 @@
+import datetime
+
 from rest_auth.views import PasswordResetConfirmView, sensitive_post_parameters_m
+from rest_framework import status
+from rest_framework.generics import DestroyAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 
@@ -16,3 +21,16 @@ class UserPasswordResetConfirmView(PasswordResetConfirmView):
         serializer.save()
         return Response(template_name='password/password_reset_done.html')
 
+
+class UserDeactivateView(DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def destroy(self, request, *args, **kwargs):
+        timestamp = int(datetime.datetime.now().timestamp() * 10 ** 6)
+        deactivating_user = request.user
+        deactivating_user.is_active = False
+        deactivating_user.username = '(탈퇴 사용자)'
+        deactivating_user.full_name = '(탈퇴 사용자)'
+        deactivating_user.email = f'deactivated_{timestamp}'
+        deactivating_user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
