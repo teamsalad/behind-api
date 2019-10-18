@@ -29,7 +29,7 @@ class UserDeactivateView(DestroyAPIView):
         timestamp = int(datetime.datetime.now().timestamp() * 10 ** 6)
         deactivating_user = request.user
         deactivating_user.is_active = False
-        deactivating_user.username = '(탈퇴 사용자)'
+        deactivating_user.username = f'(탈퇴 사용자 {timestamp})'
         deactivating_user.full_name = '(탈퇴 사용자)'
         deactivating_user.email = f'deactivated_{timestamp}'
         deactivating_user.save()
