@@ -9,7 +9,7 @@ from behind import settings
 from payments.models import Payment, STATUS, AUTHORITY
 from purchases.models import Purchase, STATE
 from users.forms import ConfirmPaymentTransactionForm
-from users.models import User
+from users.models import User, UserAgreement
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -67,4 +67,13 @@ class UserAdmin(admin.ModelAdmin):
     confirm_payment_transaction.short_description = 'Confirm user(s) payment transactions manually'
 
 
+class UserAgreementAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
+    list_display = (
+        'user', 'terms_of_use', 'privacy_policy',
+        'marketing_information_reception',
+    )
+
+
 admin.site.register(User, UserAdmin)
+admin.site.register(UserAgreement, UserAgreementAdmin)
