@@ -1,5 +1,4 @@
 import codecs
-import datetime
 import json
 import tempfile
 import time
@@ -8,10 +7,10 @@ from argparse import FileType
 import requests
 from django.core import files
 from django.core.management.base import BaseCommand
-from nanoid import generate
 
 from companies.models import Company, Job
 from objects.models import Object, TYPE, STATE
+from objects.utils import unique_filename
 
 
 class Command(BaseCommand):
@@ -42,15 +41,13 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.ERROR(f"{company_object['name']} Failed."))
                 self.stdout.write(self.style.ERROR(f"Image URL: {company_object['image_url']}"))
                 continue
-            filename = company_object['image_url'].split('/')[-1]
+            filename = company_object['image_url'].split('/')[-1].rsplit('?', 1)[0]
             temp = tempfile.NamedTemporaryFile()
             for block in request.iter_content(1024 * 8):
                 if not block:
                     break
                 temp.write(block)
-            timestamp = int(datetime.datetime.now().timestamp() * 10 ** 6)
-            file_extension = filename.rsplit('.', 1)[1].lower().rsplit('?', 1)[0]
-            object_name = f"{generate(size=32)}_{str(timestamp)}.{file_extension}"
+            object_name = unique_filename(filename)
             # Create image object instance linked with company
             image_object = Object.objects.create(
                 link_alias=f'company-logos/{company.id}/',

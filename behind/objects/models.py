@@ -11,7 +11,7 @@ TYPE = (
 )
 
 
-def unique_filename(instance, filename):
+def storage_path(instance, filename):
     def file_path():
         paths = {
             'company': 'company-logos',
@@ -31,7 +31,7 @@ class Object(models.Model):
         choices=STATE,
         default=STATE[0][0]
     )
-    object = models.FileField(upload_to=unique_filename)
+    object = models.FileField(upload_to=storage_path)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

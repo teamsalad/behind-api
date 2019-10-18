@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=100)),
                 ('type', models.PositiveSmallIntegerField(choices=[(1, 'company'), (2, 'gifticon')])),
                 ('state', models.PositiveSmallIntegerField(choices=[(1, 'staging'), (2, 'aliased'), (3, 'unaliased')], default=1)),
-                ('object', models.FileField(upload_to=objects.models.unique_filename)),
+                ('object', models.FileField(upload_to=objects.models.storage_path)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
             ],

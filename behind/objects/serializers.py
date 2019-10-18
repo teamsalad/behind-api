@@ -1,10 +1,7 @@
-import datetime
-
-from nanoid import generate
-
 from rest_framework import serializers
 
 from objects.models import Object, TYPE, STATE
+from objects.utils import unique_filename
 
 
 class CreateObjectSerializer(serializers.ModelSerializer):
@@ -12,10 +9,7 @@ class CreateObjectSerializer(serializers.ModelSerializer):
     object = serializers.FileField()
 
     def create(self, validated_data):
-        # Nano id(Better uuid) + timestamp + file extension
-        timestamp = int(datetime.datetime.now().timestamp() * 10 ** 6)
-        file_extension = validated_data['object'].name.rsplit('.', 1)[1].lower()
-        validated_data['name'] = f"{generate(size=32)}_{str(timestamp)}.{file_extension}"
+        validated_data['name'] = unique_filename(validated_data['object'].name)
         validated_data['link_alias'] = validated_data['name']
         return Object.objects.create(**validated_data)
 
