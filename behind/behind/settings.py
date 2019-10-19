@@ -261,6 +261,8 @@ AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 def show_toolbar(request):
     return DEBUG
