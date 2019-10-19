@@ -40,7 +40,6 @@ router.register(r'devices', FCMDeviceAuthorizedViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
-    path('api/docs/users/', include('rest_framework.urls')),
     path('api/v1/users/', include('users.urls')),
     path('api/v1/users/push-notification-settings/', PushNotificationSettingView.as_view()),
     path('api/v1/user-job-histories/', include('companies.urls')),
@@ -61,5 +60,6 @@ urlpatterns = [
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls))
+        path('__debug__/', include(debug_toolbar.urls)),
+        path('api/docs/users/', include('rest_framework.urls')),
     ] + urlpatterns
