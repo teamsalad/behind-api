@@ -95,9 +95,8 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
         queryset=Job.objects.all(),
         write_only=True
     )
-    company_id = serializers.PrimaryKeyRelatedField(
-        required=True,
-        queryset=Company.objects.all(),
+    company_name = serializers.CharField(
+        max_length=100,
         write_only=True
     )
     job = JobSerializer(read_only=True)
@@ -106,8 +105,14 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-        # user_id__in=user_ids
-        company = validated_data['company_id']
+        company_name = validated_data.pop('company_name')
+        try:
+            company = Company.objects.get(name=company_name)
+        except Company.DoesNotExist:
+            company = Company.objects.create(
+                name=company_name,
+                email_domain='thebehind.com'
+            )
         job = validated_data['job_id']
         validated_data['job_id'] = job.id
         validated_data['company_id'] = company.id
@@ -135,6 +140,6 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ('id', 'content', 'job', 'job_id',
-                  'company_id', 'company', 'answers',
+                  'company_name', 'company', 'answers',
                   'created_at',)
         read_only_fields = ('id', 'job', 'company', 'answers', 'created_at',)
