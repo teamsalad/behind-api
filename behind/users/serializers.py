@@ -42,6 +42,14 @@ class UserRegisterSerializer(RegisterSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
+        if not bool(validated_data['privacy_policy']):
+            raise serializers.ValidationError({
+                'privacy_policy': 'Must agree with privacy policy to use behind'
+            })
+        if not bool(validated_data['terms_of_use']):
+            raise serializers.ValidationError({
+                'terms_of_use': 'Must agree with terms of use to use behind'
+            })
         return super(RegisterSerializer, self).create(validated_data)
 
 
