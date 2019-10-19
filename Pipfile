@@ -26,6 +26,7 @@ boto3 = "*"
 django-storages = "*"
 nanoid = "*"
 django-health-check = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"
