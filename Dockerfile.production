@@ -15,7 +15,7 @@ COPY Pipfile.lock Pipfile.lock
 RUN apk add --no-cache --virtual .build-deps \
       mariadb-dev build-base openssl-dev libffi-dev musl-dev linux-headers && \
       pipenv install --deploy --system && \
-      apk add --virtual .runtime-deps mariadb-client py-mysqldb && \
+      apk add --virtual .runtime-deps mariadb-client nginx py-mysqldb && \
       apk del .build-deps
 
 COPY . .
