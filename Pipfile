@@ -27,6 +27,7 @@ django-storages = "*"
 nanoid = "*"
 django-health-check = "*"
 gunicorn = "*"
+supervisor = "*"
 
 [requires]
 python_version = "3.7"
