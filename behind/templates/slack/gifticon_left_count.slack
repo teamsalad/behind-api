@@ -1,0 +1,5 @@
+{% extends django_slack %}
+
+{% block text %}
+기프티콘 남은 개수: {{ gifticon_left_count }}
+{% endblock %}
