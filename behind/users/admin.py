@@ -50,6 +50,12 @@ class UserAdmin(admin.ModelAdmin):
                         amount=charging_points,
                         state=STATE[1][0]
                     )
+                    active_device = user.active_device()
+                    if active_device is not None:
+                        active_device.send_message(
+                            body=f'{charging_points} 포인트가 충전되었습니다!',
+                            sound='default'
+                        )
                 self.message_user(request, 'Successfully transacted points to selected user(s)')
                 return HttpResponseRedirect(request.get_full_path())
         if not form:
