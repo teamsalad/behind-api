@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: behind-api-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: behind-api-server
+  template:
+    metadata:
+      labels:
+        app: behind-api-server
+    spec:
+      containers:
+      - name: behind-api
+        image: gcr.io/behind-69d5d/behind-api:0.0.2
+        livenessProbe:
+          httpGet:
+            path: /_/health/
+            port: 80
+        readinessProbe:
+          httpGet:
+            path: /_/health/
+            port: 80
+        ports:
+        - containerPort: 80
+      - name: queue
+        image: redis
+        ports:
+        - containerPort: 6379
+
