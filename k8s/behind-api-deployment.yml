@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: behind-api-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: behind-api-server
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: behind-api
-        image: gcr.io/behind-69d5d/behind-api:0.0.2
+        image: gcr.io/behind-69d5d/behind-api:0.0.4
         livenessProbe:
           httpGet:
             path: /_/health/
