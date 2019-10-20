@@ -31,14 +31,24 @@ ALLOWED_HOSTS = ['*']
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
         },
+        'slack_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django_slack.log.SlackExceptionHandler',
+        },
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
+            'handlers': ['console', 'slack_admins'],
             'level': os.getenv('LOG_LEVEL', 'INFO'),
         },
     },
@@ -285,3 +295,9 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 SLACK_TOKEN = os.getenv('SLACK_TOKEN')
+
+SLACK_CHANNEL = os.getenv('SLACK_CHANNEL')
+
+SLACK_USERNAME = os.getenv('SLACK_USERNAME')
+
+SLACK_ICON_URL = os.getenv('SLACK_ICON_URL')
