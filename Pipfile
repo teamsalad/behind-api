@@ -28,6 +28,7 @@ nanoid = "*"
 django-health-check = "*"
 gunicorn = "*"
 supervisor = "*"
+django-slack = "*"
 
 [requires]
 python_version = "3.7"
