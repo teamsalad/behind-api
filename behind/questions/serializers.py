@@ -1,4 +1,5 @@
 from django.db import transaction
+from django_slack import slack_message
 from fcm_django.models import FCMDevice
 from rest_framework import serializers
 
@@ -113,6 +114,9 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
                 name=company_name,
                 email_domain='thebehind.com'
             )
+            slack_message('slack/new_company_message.slack', {
+                'company': company
+            })
         job = validated_data['job_id']
         validated_data['job_id'] = job.id
         validated_data['company_id'] = company.id
