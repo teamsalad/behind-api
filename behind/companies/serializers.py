@@ -2,6 +2,7 @@ from allauth.utils import build_absolute_uri
 from django.contrib.sites.shortcuts import get_current_site
 from django.db import transaction
 from django.urls import reverse
+from django_slack import slack_message
 
 from behind import settings
 from .models import Job, Company, UserJobHistory, METHODS
@@ -78,21 +79,25 @@ class CreateUserJobHistorySerializer(serializers.ModelSerializer):
                 # FIXME: Delete this validation when all 'thebehind.com' are gone
                 # thebehind.com is our initial value for the companies we crawled
                 if company.email_domain == 'thebehind.com':
-                    # TODO: Send Slack message that it's created.
                     company.email_domain = company_domain
                     company.save()
+                    slack_message('slack/new_company_message.slack', {
+                        'company': company
+                    })
                 if company.email_domain != company_domain:
                     raise serializers.ValidationError({
                         'company_email': 'Wrong company email.'
                     })
             except Company.DoesNotExist:
-                # TODO: Send Slack message that it's created.
                 company = Company.objects.create(
                     name=company_name,
                     email_domain=company_domain
                 )
                 company.jobs.set(Job.objects.all())
                 company.save()
+                slack_message('slack/new_company_message.slack', {
+                    'company': company
+                })
             validated_data['company_id'] = company.id
             validated_data['job_id'] = validated_data['job_id'].id
             validated_data['user'] = self.context['request'].user
