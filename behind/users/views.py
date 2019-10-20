@@ -36,5 +36,6 @@ class UserDeactivateView(DestroyAPIView):
             deactivating_user.full_name = '(탈퇴 사용자)'
             deactivating_user.email = f'deactivated_{timestamp}'
             EmailAddress.objects.get(user=deactivating_user).delete()
+            deactivating_user.job_histories.update(confirmation_information='')
             deactivating_user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
