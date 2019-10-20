@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     'health_check',
     'health_check.db',
     'health_check.storage',
+    'django_slack',
     'users',
     'companies',
     'questions',
@@ -161,6 +162,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.loaders.app_directories.Loader',
             ],
         },
     },
@@ -281,3 +283,5 @@ def show_toolbar(request):
 DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': 'behind.settings.show_toolbar',
 }
+
+SLACK_TOKEN = os.getenv('SLACK_TOKEN')
