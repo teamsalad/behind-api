@@ -1,10 +1,11 @@
 from django.db import transaction
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
+from constance import config
 
 from behind import settings
 from purchases.models import Purchase, STATE
-from purchases.models import ITEM_TYPE, ITEM_PRICE
+from purchases.models import ITEM_TYPE
 
 
 class CreatePurchaseSerializer(serializers.ModelSerializer):
@@ -20,7 +21,7 @@ class CreatePurchaseSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         if validated_data['item_type'] == ITEM_TYPE[0]:
-            if self.context['request'].user.balance() - ITEM_PRICE[ITEM_TYPE[0]] < 0:
+            if self.context['request'].user.balance() - config.CHAT_SESSION_PRICE < 0:
                 raise serializers.ValidationError({
                     'balance': 'Not enough points.'
                 })
@@ -37,7 +38,7 @@ class CreatePurchaseSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({
                     'purchase': 'Already paid for chatting with answerer.'
                 })
-            validated_data['amount'] = ITEM_PRICE[ITEM_TYPE[0]]
+            validated_data['amount'] = config.CHAT_SESSION_PRICE
         elif validated_data['item_type'] == ITEM_TYPE[1]:
             # TODO: Implement payment flow
             pass
