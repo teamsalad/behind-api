@@ -97,6 +97,7 @@ INSTALLED_APPS = [
     'health_check.storage',
     'django_slack',
     'django_extensions',
+    'constance',
     'users',
     'companies',
     'questions',
@@ -305,3 +306,15 @@ SLACK_CHANNEL = os.getenv('SLACK_CHANNEL')
 SLACK_USERNAME = os.getenv('SLACK_USERNAME')
 
 SLACK_ICON_URL = os.getenv('SLACK_ICON_URL')
+
+CONSTANCE_BACKEND = 'constance.backends.redisd.RedisBackend'
+
+CONSTANCE_REDIS_CONNECTION = {
+    'host': os.getenv('CACHE_HOST'),
+    'port': os.getenv('CACHE_PORT'),
+    'db': os.getenv('CACHE_DATABASE'),
+}
+
+CONSTANCE_CONFIG = {
+    'CHAT_SESSION_PRICE': (10000, '채팅세션 가격'),
+}
