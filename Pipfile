@@ -33,6 +33,7 @@ greenlet = "*"
 gevent = "*"
 django-extensions = "*"
 werkzeug = "*"
+django-constance = {extras = ["redis"],version = "*"}
 
 [requires]
 python_version = "3.7"
