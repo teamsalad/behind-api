@@ -96,6 +96,7 @@ INSTALLED_APPS = [
     'health_check.db',
     'health_check.storage',
     'django_slack',
+    'django_extensions',
     'users',
     'companies',
     'questions',

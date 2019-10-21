@@ -32,6 +32,7 @@ django-slack = "*"
 greenlet = "*"
 gevent = "*"
 django-extensions = "*"
+werkzeug = "*"
 
 [requires]
 python_version = "3.7"
