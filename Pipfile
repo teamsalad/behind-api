@@ -29,6 +29,8 @@ django-health-check = "*"
 gunicorn = "*"
 supervisor = "*"
 django-slack = "*"
+greenlet = "*"
+gevent = "*"
 
 [requires]
 python_version = "3.7"
