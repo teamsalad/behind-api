@@ -31,6 +31,7 @@ supervisor = "*"
 django-slack = "*"
 greenlet = "*"
 gevent = "*"
+django-extensions = "*"
 
 [requires]
 python_version = "3.7"
