@@ -3,8 +3,4 @@
 
 ## Platform Tools
 Tools that help us develop `Behind`.
-```
-# Install GoCD
-$ helm install stable/gocd --name gocd --namespace gocd
-```
 
