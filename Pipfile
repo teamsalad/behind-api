@@ -34,6 +34,7 @@ gevent = "*"
 django-extensions = "*"
 werkzeug = "*"
 django-constance = {extras = ["redis"],version = "*"}
+fabric = "*"
 
 [requires]
 python_version = "3.7"
