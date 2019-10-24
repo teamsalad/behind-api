@@ -114,8 +114,9 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
                 name=company_name,
                 email_domain='thebehind.com'
             )
-            slack_message('slack/new_company_message.slack', {
-                'company': company
+            slack_message('slack/company_related_message.slack', {
+                'company': company,
+                'situation': '[구직자 질문] 새로운 회사 등록'
             })
         job = validated_data['job_id']
         validated_data['job_id'] = job.id

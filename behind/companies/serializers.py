@@ -81,8 +81,9 @@ class CreateUserJobHistorySerializer(serializers.ModelSerializer):
                 if company.email_domain == 'thebehind.com':
                     company.email_domain = company_domain
                     company.save()
-                    slack_message('slack/new_company_message.slack', {
-                        'company': company
+                    slack_message('slack/company_related_message.slack', {
+                        'company': company,
+                        'situation': '[재직자 인증] 이메일을 모르는 회사'
                     })
                 if company.email_domain != company_domain:
                     raise serializers.ValidationError({
@@ -95,8 +96,9 @@ class CreateUserJobHistorySerializer(serializers.ModelSerializer):
                 )
                 company.jobs.set(Job.objects.all())
                 company.save()
-                slack_message('slack/new_company_message.slack', {
-                    'company': company
+                slack_message('slack/company_related_message.slack', {
+                    'company': company,
+                    'situation': '[재직자 인증] 새로운 회사 등록'
                 })
             validated_data['company_id'] = company.id
             validated_data['job_id'] = validated_data['job_id'].id
