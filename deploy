@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+import argparse
+import sys
+import subprocess
+import os
+from django_slack import slack_message
+
+
+# Import dotenv
+import dotenv
+dotenv.read_dotenv('behind-api/.env')
+
+description = "Behind API Server build and push docker image to Google Container Registry"
+parser = argparse.ArgumentParser(description=description)
+parser.add_argument("-t", "--tag", help="Tag version of docker image", dest="tag", default="")
+parser.add_argument("-p", "--project", help="Google Cloud Project ID", dest="project", default="")
+args = parser.parse_args()
+
+# TODO: Change this into regular expression
+if len(args.tag) != 5:
+    print("Version must be in format: 0.0.1")
+    sys.exit()
+
+# Authenticate docker configuration
+print("Build and push docker image.")
+subprocess.run(["gcloud", "auth", "configure-docker"])
+# Build docker image
+docker_image_url = f"gcr.io/{args.project}/behind-api:{args.tag}"
+subprocess.run(["docker", "build", "-t", docker_image_url, "--file=Dockerfile.production", "."])
+subprocess.run(["docker", "push", docker_image_url])
+print("Done!")
+
+
+# Deploy to GKE
+print('Deploying to GKE ...')
+subprocess.run(["kubectl", "set", "image", "deploy/behind-api-deployment", f"behind-api={docker_image_url}", "--record"])
+subprocess.run(["kubectl", "rollout", "status", "deployment", "behind-api-deployment"])
+print('Deployed.')
+# Send Slack message
+slack_message('behind-api/templates/slack/new_deployment.slack', {'version': args.tag})
+
