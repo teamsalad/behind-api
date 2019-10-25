@@ -3,7 +3,6 @@ import datetime
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from rest_framework import serializers
-from django_slack import slack_message
 
 from behind import settings
 from chats.models import (
@@ -127,9 +126,10 @@ class ChatRoomSerializer(serializers.ModelSerializer):
                 .order_by('-expired_at') \
                 .first()
             gifticon_left_count = Gifticon.objects.count() - len(unavailable_gifticon_ids)
-            slack_message('slack/gifticon_left_count.slack', {
-                'gifticon_left_count': gifticon_left_count
-            })
+            # TODO: Send Slack message
+            """
+            기프티콘 남은 개수: {{ gifticon_left_count }}
+            """
             if available_gifticon is None:
                 raise serializers.ValidationError({
                     'gifticon': 'No gifticons left to reward.'

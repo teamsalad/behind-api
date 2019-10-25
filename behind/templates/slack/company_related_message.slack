@@ -1,8 +1,0 @@
-{% extends django_slack %}
-
-{% block text %}
-*회사 정보*
-상황: {{ situation }}
-회사 이름: {{ company.name }}
-회사 이메일: {{ company.email_domain }}
-{% endblock %}

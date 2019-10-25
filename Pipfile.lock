@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "81e95a932b12cf9e968ebb66667e4d140e5e20a8d6b2bffd23c3f6b73bb3ed06"
+            "sha256": "29ac616527983f97437e9ebe169f5be5a565901db61f4026a618f7aaa0ac93a7"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -290,13 +290,6 @@
             ],
             "index": "pypi",
             "version": "==0.9.5"
-        },
-        "django-slack": {
-            "hashes": [
-                "sha256:17ad45a0ad30c8e6d88ba529e38418af29a3d8225cc95d6036a5e1bda6db608f"
-            ],
-            "index": "pypi",
-            "version": "==5.14.0"
         },
         "django-storages": {
             "hashes": [

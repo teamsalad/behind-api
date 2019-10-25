@@ -43,7 +43,7 @@ LOGGING = {
         'slack_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
-            'class': 'django_slack.log.SlackExceptionHandler',
+            'class': 'behind.log_handlers.SlackExceptionHandler',
         },
     },
     'loggers': {
@@ -95,7 +95,6 @@ INSTALLED_APPS = [
     'health_check',
     'health_check.db',
     'health_check.storage',
-    'django_slack',
     'django_extensions',
     'constance',
     'users',
@@ -169,7 +168,6 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
             os.path.join(BASE_DIR, 'templates', 'allauth'),
-            os.path.join(BASE_DIR, 'templates', 'slack'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -299,13 +297,7 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': 'behind.settings.show_toolbar',
 }
 
-SLACK_TOKEN = os.getenv('SLACK_TOKEN')
-
-SLACK_CHANNEL = os.getenv('SLACK_CHANNEL')
-
-SLACK_USERNAME = os.getenv('SLACK_USERNAME')
-
-SLACK_ICON_URL = os.getenv('SLACK_ICON_URL')
+SLACK_BOT_ACCESS_TOKEN = os.getenv('SLACK_BOT_ACCESS_TOKEN')
 
 CONSTANCE_BACKEND = 'constance.backends.redisd.RedisBackend'
 

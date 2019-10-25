@@ -1,6 +1,0 @@
-{% extends django_slack %}
-
-{% block text %}
-*Production Deployment*
-Version: {{ version }}
-{% endblock %}

@@ -1,13 +1,12 @@
 from django.db import transaction
-from django_slack import slack_message
 from fcm_django.models import FCMDevice
 from rest_framework import serializers
 
 from companies.models import Job, Company, UserJobHistory
 from companies.serializers import JobSerializer, CompanySerializer
+from questions.models import Question, Answer
 from users.models import User
 from users.serializers import UserDetailsSerializer
-from questions.models import Question, Answer
 
 
 class AnswerListQuestionSerializer(serializers.ModelSerializer):
@@ -114,10 +113,15 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
                 name=company_name,
                 email_domain='thebehind.com'
             )
-            slack_message('slack/company_related_message.slack', {
-                'company': company,
-                'situation': '[구직자 질문] 새로운 회사 등록'
-            })
+            # TODO: Send slack message
+            """
+            'company': company,
+            'situation': '[구직자 질문] 새로운 회사 등록'
+            *회사 정보*
+            상황: {{ situation }}
+            회사 이름: {{ company.name }}
+            회사 이메일: {{ company.email_domain }}
+            """
         job = validated_data['job_id']
         validated_data['job_id'] = job.id
         validated_data['company_id'] = company.id
