@@ -3,7 +3,6 @@ import argparse
 import sys
 import subprocess
 import os
-from django_slack import slack_message
 
 
 # Import dotenv
@@ -36,6 +35,4 @@ print('Deploying to GKE ...')
 subprocess.run(["kubectl", "set", "image", "deploy/behind-api-deployment", f"behind-api={docker_image_url}", "--record"])
 subprocess.run(["kubectl", "rollout", "status", "deployment", "behind-api-deployment"])
 print('Deployed.')
-# Send Slack message
-slack_message('behind-api/templates/slack/new_deployment.slack', {'version': args.tag})
 
