@@ -2,6 +2,7 @@ from django.db import transaction
 from fcm_django.models import FCMDevice
 from rest_framework import serializers
 
+from behind import jarvis
 from companies.models import Job, Company, UserJobHistory
 from companies.serializers import JobSerializer, CompanySerializer
 from questions.models import Question, Answer
@@ -113,15 +114,12 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
                 name=company_name,
                 email_domain='thebehind.com'
             )
-            # TODO: Send slack message
-            """
-            'company': company,
-            'situation': '[구직자 질문] 새로운 회사 등록'
+            jarvis.send_slack(f"""
             *회사 정보*
-            상황: {{ situation }}
-            회사 이름: {{ company.name }}
-            회사 이메일: {{ company.email_domain }}
-            """
+            상황: [구직자 질문] 새로운 회사 등록
+            회사 이름: {company.name}
+            회사 이메일: {company.email_domain}
+            """)
         job = validated_data['job_id']
         validated_data['job_id'] = job.id
         validated_data['company_id'] = company.id

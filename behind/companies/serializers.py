@@ -6,7 +6,7 @@ from django.db import transaction
 from django.urls import reverse
 from rest_framework import serializers
 
-from behind import settings
+from behind import settings, jarvis
 from .models import Job, Company, UserJobHistory, METHODS
 
 
@@ -80,15 +80,12 @@ class CreateUserJobHistorySerializer(serializers.ModelSerializer):
                 if company.email_domain == 'thebehind.com':
                     company.email_domain = company_domain
                     company.save()
-                    # TODO: Send slack message
-                    """
-                    'company': company,
-                    'situation': '[재직자 인증] 이메일을 모르는 회사'
+                    jarvis.send_slack(f"""
                     *회사 정보*
-                    상황: {{ situation }}
-                    회사 이름: {{ company.name }}
-                    회사 이메일: {{ company.email_domain }}
-                    """
+                    상황: [재직자 인증] 이메일을 모르는 회사
+                    회사 이름: {company.name}
+                    회사 이메일: {company.email_domain}
+                    """)
                 if company.email_domain != company_domain:
                     raise serializers.ValidationError({
                         'company_email': 'Wrong company email.'
@@ -100,15 +97,12 @@ class CreateUserJobHistorySerializer(serializers.ModelSerializer):
                 )
                 company.jobs.set(Job.objects.all())
                 company.save()
-                # TODO: Send slack message
-                """
-                'company': company,
-                'situation': '[재직자 인증] 새로운 회사 등록'
+                jarvis.send_slack(f"""
                 *회사 정보*
-                상황: {{ situation }}
-                회사 이름: {{ company.name }}
-                회사 이메일: {{ company.email_domain }}
-                """
+                상황: [재직자 인증] 새로운 회사 등록
+                회사 이름: {company.name}
+                회사 이메일: {company.email_domain}
+                """)
             validated_data['company_id'] = company.id
             validated_data['job_id'] = validated_data['job_id'].id
             validated_data['user'] = self.context['request'].user

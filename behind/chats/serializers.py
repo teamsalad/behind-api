@@ -4,7 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from rest_framework import serializers
 
-from behind import settings
+from behind import settings, jarvis
 from chats.models import (
     ChatRoom,
     ChatMessage,
@@ -126,10 +126,9 @@ class ChatRoomSerializer(serializers.ModelSerializer):
                 .order_by('-expired_at') \
                 .first()
             gifticon_left_count = Gifticon.objects.count() - len(unavailable_gifticon_ids)
-            # TODO: Send Slack message
-            """
-            기프티콘 남은 개수: {{ gifticon_left_count }}
-            """
+            jarvis.send_slack(f"""
+            기프티콘 남은 개수: {gifticon_left_count}
+            """)
             if available_gifticon is None:
                 raise serializers.ValidationError({
                     'gifticon': 'No gifticons left to reward.'
