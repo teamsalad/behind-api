@@ -13,10 +13,6 @@ class SlackExceptionHandler(logging.Handler):
     """
 
     def __init__(self, **kwargs):
-        # Pop any kwargs that shouldn't be passed into the Slack message
-        # attachment here.
-        self.template = kwargs.pop('template', 'django_slack/exception.slack')
-
         self.kwargs = kwargs
         logging.Handler.__init__(self)
 
@@ -61,40 +57,9 @@ class SlackExceptionHandler(logging.Handler):
             if reporter.exc_type:
                 tb = "{} (An exception occured when rendering the " \
                      "traceback)".format(reporter.exc_type.__name__)
-
         message = "{}\n\n{}".format(self.format(no_exc_record), tb)
-
-        colors = {
-            'ERROR': 'danger',
-            'WARNING': 'warning',
-            'INFO': 'good',
-        }
-
-        attachments = {
-            'title': subject,
-            'text': message,
-            'color': colors.get(record.levelname, '#AAAAAA'),
-        }
-
-        attachments.update(self.kwargs)
-        self.send_message(
-            self.template,
-            {'text': subject},
-            self.generate_attachments(**attachments),
-        )
-
-    def generate_attachments(self, **kwargs):
-        """
-        Hook to override attachments.
-        """
-        return [kwargs]
-
-    def send_message(self, *args, **kwargs):
-        """
-        Hook to update the message before sending.
-        """
-        # TODO: Implement sending error messages properly
-        return jarvis.send_slack(*args, **kwargs)
+        text = f'{subject} - {message}'
+        jarvis.send_slack(text)
 
     def format_subject(self, subject):
         """
