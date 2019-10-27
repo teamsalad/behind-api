@@ -133,6 +133,12 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
             .select_related('push_notification_setting') \
             .filter(id__in=employee_ids, push_notification_setting__asked=True) \
             .values_list('id', flat=True)
+        if not notifiable_employee_ids:
+            jarvis.send_slack(f"""
+            상황: [구직자 질문] 답변해줄 사람 없음
+            회사 이름: {company.name}
+            회사 이메일: {company.email_domain}
+            """)
         devices = FCMDevice.objects.filter(
             user_id__in=notifiable_employee_ids,
             active=True
