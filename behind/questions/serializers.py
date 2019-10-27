@@ -119,6 +119,7 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
             상황: [구직자 질문] 새로운 회사 등록
             회사 이름: {company.name}
             회사 이메일: {company.email_domain}
+            직업 정보: {validated_data['job_id'].title}
             """)
         job = validated_data['job_id']
         validated_data['job_id'] = job.id

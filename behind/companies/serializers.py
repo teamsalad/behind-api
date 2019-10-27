@@ -85,6 +85,7 @@ class CreateUserJobHistorySerializer(serializers.ModelSerializer):
                     상황: [재직자 인증] 이메일을 모르는 회사
                     회사 이름: {company.name}
                     회사 이메일: {company.email_domain}
+                    직업 정보: {validated_data['job_id'].title}
                     """)
                 if company.email_domain != company_domain:
                     raise serializers.ValidationError({
@@ -102,6 +103,7 @@ class CreateUserJobHistorySerializer(serializers.ModelSerializer):
                 상황: [재직자 인증] 새로운 회사 등록
                 회사 이름: {company.name}
                 회사 이메일: {company.email_domain}
+                직업 정보: {validated_data['job_id'].title}
                 """)
             validated_data['company_id'] = company.id
             validated_data['job_id'] = validated_data['job_id'].id
