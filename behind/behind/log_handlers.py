@@ -59,7 +59,7 @@ class SlackExceptionHandler(logging.Handler):
                      "traceback)".format(reporter.exc_type.__name__)
         message = "{}\n\n{}".format(self.format(no_exc_record), tb)
         text = f'{subject} - {message}'
-        jarvis.send_slack(text)
+        jarvis.send_slack(text, channel='#monitoring')
 
     def format_subject(self, subject):
         """
