@@ -1,8 +1,7 @@
 import slack
+import os
 
-from behind import settings
-
-slack_client = slack.WebClient(token=settings.SLACK_BOT_ACCESS_TOKEN)
+slack_client = slack.WebClient(token=os.getenv('SLACK_BOT_ACCESS_TOKEN'))
 
 
 def send_slack(text, icon_emoji=':jarvis:', channel='#jarvis-help'):

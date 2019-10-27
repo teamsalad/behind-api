@@ -1,13 +1,16 @@
 #!/usr/bin/env python
+
+# Import dotenv
+import dotenv
+
+dotenv.read_dotenv('behind/.env')
+
 import argparse
 import sys
 import subprocess
 import os
 
-
-# Import dotenv
-import dotenv
-dotenv.read_dotenv('behind-api/.env')
+from behind.behind import jarvis
 
 description = "Behind API Server build and push docker image to Google Container Registry"
 parser = argparse.ArgumentParser(description=description)
@@ -29,10 +32,19 @@ subprocess.run(["docker", "build", "-t", docker_image_url, "--file=Dockerfile.pr
 subprocess.run(["docker", "push", docker_image_url])
 print("Done!")
 
-
 # Deploy to GKE
 print('Deploying to GKE ...')
-subprocess.run(["kubectl", "set", "image", "deploy/behind-api-deployment", f"behind-api={docker_image_url}", "--record"])
+subprocess.run(
+    [
+        "kubectl",
+        "set",
+        "image",
+        "deploy/behind-api-deployment",
+        f"behind-api={docker_image_url}",
+        "--record"
+    ]
+)
 subprocess.run(["kubectl", "rollout", "status", "deployment", "behind-api-deployment"])
 print('Deployed.')
 
+jarvis.send_slack(f'Production deployment: {args.tag}')
