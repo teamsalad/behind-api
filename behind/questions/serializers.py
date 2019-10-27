@@ -138,6 +138,7 @@ class CreateQuestionSerializer(serializers.ModelSerializer):
             상황: [구직자 질문] 답변해줄 사람 없음
             회사 이름: {company.name}
             회사 이메일: {company.email_domain}
+            직업 정보: {job.title}
             """)
         devices = FCMDevice.objects.filter(
             user_id__in=notifiable_employee_ids,
