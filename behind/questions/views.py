@@ -28,8 +28,10 @@ class QuestionFeedView(ListAPIView):
     def get_queryset(self):
         job_histories = self.request.user.job_histories.all()
         if job_histories.exists():
-            query = reduce(lambda x, y: x | y, [Q(company=item.company, job=item.job) for item in job_histories])
-            return Question.objects.filter(query)
+            return Question.objects.filter(
+                Q(company_id__in=job_histories.values_list('company_id', flat=True).distinct()) |
+                Q(job_id__in=job_histories.values_list('job_id', flat=True).distinct())
+            )
         return Question.objects.none()
 
 
