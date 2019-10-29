@@ -111,3 +111,4 @@ venv.bak/
 
 # Django stuff
 /behind/static
+/behind/*.json

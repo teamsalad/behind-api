@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+from google.oauth2 import service_account
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -270,19 +272,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-# S3
+# Google Cloud Storage
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+GS_BUCKET_NAME = os.getenv('GS_BUCKET_NAME')
 
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.getenv('GS_CREDENTIALS')
+)
 
-AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-
-AWS_LOCATION = os.getenv('AWS_LOCATION')
-
-AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+GS_LOCATION = os.getenv('GS_LOCATION')
 
 STATIC_URL = '/static/'
 
