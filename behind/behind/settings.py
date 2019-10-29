@@ -276,6 +276,8 @@ USE_TZ = True
 
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
+GS_PROJECT_ID = os.getenv('GS_PROJECT_ID')
+
 GS_BUCKET_NAME = os.getenv('GS_BUCKET_NAME')
 
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
