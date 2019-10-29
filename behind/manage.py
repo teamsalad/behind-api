@@ -6,7 +6,11 @@ import dotenv
 
 
 def main():
-    dotenv.read_dotenv()
+    if not os.getenv('DEBUG'):
+        # If DEBUG is False, we read production.
+        dotenv.read_dotenv('.env.production')
+    else:
+        dotenv.read_dotenv()
 
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'behind.settings')
     try:
