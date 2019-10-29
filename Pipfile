@@ -33,6 +33,7 @@ werkzeug = "*"
 django-constance = {extras = ["redis"],version = "*"}
 slackclient = "*"
 bump2version = "*"
+django-storages = {extras = ["google"],version = "*"}
 
 [requires]
 python_version = "3.7"
