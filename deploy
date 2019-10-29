@@ -9,8 +9,9 @@ import argparse
 import sys
 import subprocess
 import os
-from version import __version__
+import importlib
 
+import version
 from behind.behind import jarvis
 
 description = "Behind API Server build and push docker image to Google Container Registry"
@@ -20,16 +21,18 @@ parser.add_argument("-p", "--project", help="Google Cloud Project ID", dest="pro
 args = parser.parse_args()
 
 # Copy last version
-last_version = __version__[:]
+last_version = version.__version__[:]
 
 # Bump version
 subprocess.run(['bump2version', args.part])
+# Reload version module so __version__ variable refreshes
+importlib.reload(version)
 
 # Authenticate docker configuration
 print("Build and push docker image.")
 subprocess.run(["gcloud", "auth", "configure-docker"])
 # Build docker image
-docker_image_url = f"gcr.io/{args.project}/behind-api:{__version__}"
+docker_image_url = f"gcr.io/{args.project}/behind-api:{version.__version__}"
 subprocess.run(["docker", "build", "-t", docker_image_url, "--file=Dockerfile.production", "."])
 subprocess.run(["docker", "push", docker_image_url])
 print("Done!")
@@ -50,10 +53,10 @@ subprocess.run(["kubectl", "rollout", "status", "deployment", "behind-api-deploy
 print('Deployed.')
 
 commits = "\n".join(subprocess.check_output(
-    ['git', 'log', f'v{last_version}..v{__version__}', '--oneline'],
+    ['git', 'log', f'v{last_version}..v{version.__version__}', '--oneline'],
     stderr=subprocess.STDOUT).decode().split('\n'))
 jarvis.send_slack(f"""
-Production deployment: {__version__}
+Production deployment: {version.__version__}
 Tag difference from last version:
 {commits}
 """)
