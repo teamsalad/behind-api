@@ -28,6 +28,10 @@ subprocess.run(['bump2version', args.part])
 # Reload version module so __version__ variable refreshes
 importlib.reload(version)
 
+# Change dotenv file to production dotenv
+print("Copy .env.production to .env")
+subprocess.ru(['cp', 'behind/.env.production', 'behind/.env'])
+
 # Authenticate docker configuration
 print("Build and push docker image.")
 subprocess.run(["gcloud", "auth", "configure-docker"])
