@@ -30,7 +30,7 @@ importlib.reload(version)
 
 # Change dotenv file to production dotenv
 print("Copy .env.production to .env")
-subprocess.ru(['cp', 'behind/.env.production', 'behind/.env'])
+subprocess.run(['cp', 'behind/.env.production', 'behind/.env'])
 
 # Authenticate docker configuration
 print("Build and push docker image.")
