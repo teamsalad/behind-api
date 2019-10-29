@@ -96,7 +96,6 @@ INSTALLED_APPS = [
     'storages',
     'health_check',
     'health_check.db',
-    'health_check.storage',
     'django_extensions',
     'constance',
     'users',
