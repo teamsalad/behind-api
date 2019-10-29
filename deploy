@@ -20,6 +20,10 @@ args = parser.parse_args()
 # Copy last version
 last_version = version.__version__[:]
 
+if args.part not in ['major', 'minor', 'patch']:
+    print("Part must be one of major, minor, patch")
+    sys.exit(0)
+
 # Bump version
 subprocess.run(['bump2version', args.part])
 # Reload version module so __version__ variable refreshes
