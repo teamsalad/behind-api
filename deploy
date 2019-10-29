@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-
-# Import dotenv
 import dotenv
 
 dotenv.read_dotenv('behind/.env')
@@ -17,7 +15,6 @@ from behind.behind import jarvis
 description = "Behind API Server build and push docker image to Google Container Registry"
 parser = argparse.ArgumentParser(description=description)
 parser.add_argument('-bp', '--part', help='Part to bump: Major, minor, patch', dest='part')
-parser.add_argument("-p", "--project", help="Google Cloud Project ID", dest="project", default="")
 args = parser.parse_args()
 
 # Copy last version
@@ -36,7 +33,11 @@ subprocess.run(['cp', 'behind/.env.production', 'behind/.env'])
 print("Build and push docker image.")
 subprocess.run(["gcloud", "auth", "configure-docker"])
 # Build docker image
-docker_image_url = f"gcr.io/{args.project}/behind-api:{version.__version__}"
+project_id = os.getenv('GS_PROJECT_ID', '')
+if project_id == '':
+    print("Google Project ID does not exist.")
+    sys.exit(0)
+docker_image_url = f"gcr.io/{project_id}/behind-api:{version.__version__}"
 subprocess.run(["docker", "build", "-t", docker_image_url, "--file=Dockerfile.production", "."])
 subprocess.run(["docker", "push", docker_image_url])
 print("Done!")
