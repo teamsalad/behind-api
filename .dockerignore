@@ -2,3 +2,4 @@
 var
 .DS_Store
 .idea
+behind/.env.*
