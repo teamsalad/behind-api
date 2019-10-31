@@ -38,7 +38,7 @@ router = DefaultRouter()
 router.register(r'devices', FCMDeviceAuthorizedViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('api/v1/', include(router.urls)),
     path('api/v1/users/', include('users.urls')),
     path('api/v1/users/push-notification-settings/', PushNotificationSettingView.as_view()),
@@ -55,6 +55,7 @@ urlpatterns = [
     path('api/v1/app-version/<device_type>/', AppVersionView.as_view()),
     path('api/v1/objects/', include('objects.urls')),
     path('_/health/', include('health_check.urls')),
+    path('_/admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:

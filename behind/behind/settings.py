@@ -98,6 +98,7 @@ INSTALLED_APPS = [
     'health_check.db',
     'django_extensions',
     'constance',
+    'admin_honeypot',
     'users',
     'companies',
     'questions',
