@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7f080f8a2feee90647affcbea1d899a45b39e4f44ab8645504855ed8df162e03"
+            "sha256": "024ea32aeca70120163d317f6dc3cce2cabdab13d4dff07a63042a90581067a2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -212,6 +212,14 @@
             "index": "pypi",
             "version": "==2.2.6"
         },
+        "django-admin-honeypot": {
+            "hashes": [
+                "sha256:88e72753f5cbda88d909292d9f3fe7741fb74a8afad083f96e86114238f9b364",
+                "sha256:e18a52832b82740917737873c6f34117d15631565e9e4b7dbb9df48a29250796"
+            ],
+            "index": "pypi",
+            "version": "==1.1.0"
+        },
         "django-allauth": {
             "hashes": [
                 "sha256:6a189fc4d3ee23596c3fd6e9f49c59b5b15618980118171a50675dd6a27cc589"
@@ -264,11 +272,11 @@
         },
         "django-health-check": {
             "hashes": [
-                "sha256:3aa7319005673766c2897bfed743416589fa90dc146cc92b1cccdce09f834598",
-                "sha256:805324b3a7275a087903928df4fc94759f131bc0ba7e5eb18806005c4a2a4f2f"
+                "sha256:06efac9dcd30eb83c3d0184b834d7d86467bdb710da361f20c2c28853d7e6a5e",
+                "sha256:c9bcc1b3ef77db3a9ba2d33585916707963cbb958220689f77741235f5fa553a"
             ],
             "index": "pypi",
-            "version": "==3.11.0"
+            "version": "==3.11.1"
         },
         "django-money": {
             "hashes": [
@@ -377,10 +385,10 @@
         },
         "google-cloud-storage": {
             "hashes": [
-                "sha256:13a6a820311662eb91a99810568c2bca5ddc7e44e2163fed4cb3f4d47da132cf",
-                "sha256:2e7e2435978bda1c209b70a9a00b8cbc53c3b00d6f09eb2c991ebba857babf24"
+                "sha256:266b233303098e2d9da222072382f0bd70b438a5008a32a5a556fe0f9a6a0d3a",
+                "sha256:e9b6315e39e7b959d19ce16cbc2e954f3ef714360f4369aa2df06c8ddc694f7e"
             ],
-            "version": "==1.20.0"
+            "version": "==1.21.0"
         },
         "google-resumable-media": {
             "hashes": [
@@ -687,11 +695,11 @@
         },
         "slackclient": {
             "hashes": [
-                "sha256:9613ed68b373916a972c109c49fbc935c166263c3d84d717f146154525f7b448",
-                "sha256:d59badb9b0cb36a920c67519de5e86420d9a0bfbb3f022ec5dded8c515c66aa5"
+                "sha256:d63cb1d2866dee978f7e736a8693bb708adf9a36c1ce672b57b90709a1a9d0f8",
+                "sha256:dcb2d48a43fcafb9ddf65471d6c88a6a5e976d500474a507e8f1832e0046eaf8"
             ],
             "index": "pypi",
-            "version": "==2.3.0"
+            "version": "==2.3.1"
         },
         "sqlparse": {
             "hashes": [
