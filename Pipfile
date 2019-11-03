@@ -35,6 +35,7 @@ slackclient = "*"
 bump2version = "*"
 django-storages = {extras = ["google"],version = "*"}
 django-admin-honeypot = "*"
+analytics-python = "*"
 
 [requires]
 python_version = "3.7"
