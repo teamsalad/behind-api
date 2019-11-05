@@ -19,6 +19,7 @@ class UserAdmin(admin.ModelAdmin):
         'username', 'role',
         'is_active', 'is_staff',
     )
+    search_fields = ('email', 'full_name',)
     actions = ['confirm_payment_transaction']
 
     def confirm_payment_transaction(self, request, queryset):
