@@ -5,7 +5,10 @@ from rewards.models import Gifticon
 
 class GifticonAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
-    list_display = ('name', 'exchange', 'point_price', 'price', 'supplier',)
+    list_display = (
+        'name', 'barcode_number', 'exchange',
+        'point_price', 'price', 'supplier',
+    )
 
 
 admin.site.register(Gifticon, GifticonAdmin)
