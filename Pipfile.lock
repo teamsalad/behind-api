@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5afa2fd03b80255d7a20f5f41c8166ef55a9653de7a040bcb6a0a208fdda0a5e"
+            "sha256": "ed928507e733a5b9c97b325cd208e8e155653e5f3899a69f287190df865e56c5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -181,6 +181,19 @@
             ],
             "version": "==3.0.4"
         },
+        "click": {
+            "hashes": [
+                "sha256:29f99fc6125fbc931b758dc053b3114e55c77a6e4c6c3a2674a2dc986016381d",
+                "sha256:f15516df478d5a56180fbf80e68f206010e6d160fc39fa508b65e035fd75130b"
+            ],
+            "version": "==6.7"
+        },
+        "click-default-group": {
+            "hashes": [
+                "sha256:d9560e8e8dfa44b3562fbc9425042a0fd6d21956fcc2db0077f63f34253ab904"
+            ],
+            "version": "==1.2.2"
+        },
         "constantly": {
             "hashes": [
                 "sha256:586372eb92059873e29eba4f9dec8381541b4d3834660707faf8ba59146dfc35",
@@ -349,6 +362,14 @@
             ],
             "index": "pypi",
             "version": "==3.10.3"
+        },
+        "dotenv-linter": {
+            "hashes": [
+                "sha256:4932a0209e2fdcd42c4ce2e3e1f121e836209b8401cb35ab6bc99cc22c7808e9",
+                "sha256:6c19288b4fb68844aba13b612905db4d4567f6845d244edcd292acd8a9e345c4"
+            ],
+            "index": "pypi",
+            "version": "==0.1.4"
         },
         "fcm-django": {
             "hashes": [
@@ -668,6 +689,13 @@
             ],
             "version": "==5.4.3"
         },
+        "ply": {
+            "hashes": [
+                "sha256:00c7c1aaa88358b9c765b6d3000c6eec0ba42abca5351b095321aef446081da3",
+                "sha256:096f9b8350b65ebd2fd1346b12452efe5b9607f7482813ffca50c22722a807ce"
+            ],
+            "version": "==3.11"
+        },
         "protobuf": {
             "hashes": [
                 "sha256:125713564d8cfed7610e52444c9769b8dcb0b55e25cc7841f2290ee7bc86636f",
@@ -920,6 +948,14 @@
             ],
             "markers": "implementation_name == 'cpython' and python_version < '3.8'",
             "version": "==1.4.0"
+        },
+        "typing-extensions": {
+            "hashes": [
+                "sha256:091ecc894d5e908ac75209f10d5b4f118fbdb2eb1ede6a63544054bb1edb41f2",
+                "sha256:910f4656f54de5993ad9304959ce9bb903f90aadc7c67a0bef07e678014e892d",
+                "sha256:cf8b63fedea4d89bab840ecbb93e75578af28f76f66c35889bd7065f5af88575"
+            ],
+            "version": "==3.7.4.1"
         },
         "urllib3": {
             "hashes": [

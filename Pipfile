@@ -39,6 +39,7 @@ analytics-python = "*"
 pylint = "*"
 bandit = "*"
 pydocstyle = "*"
+dotenv-linter = "*"
 
 [requires]
 python_version = "3.7"
