@@ -37,6 +37,7 @@ django-storages = {extras = ["google"],version = "*"}
 django-admin-honeypot = "*"
 analytics-python = "*"
 pylint = "*"
+bandit = "*"
 
 [requires]
 python_version = "3.7"
