@@ -25,9 +25,16 @@ if args.part not in ['major', 'minor', 'patch']:
     sys.exit(0)
 
 # Bump version
-subprocess.run(['bump2version', args.part])
-# Reload version module so __version__ variable refreshes
-importlib.reload(version)
+latest_commit = subprocess.check_output(
+    ['git', 'log', '--oneline'],
+    stderr=subprocess.STDOUT).decode().split('\n')[0]
+print(f'Latest commit: {latest_commit}')
+if 'Bump version:' in latest_commit:
+    print("Deploying with no code changes.")
+else:
+    subprocess.run(['bump2version', args.part])
+    # Reload version module so __version__ variable refreshes
+    importlib.reload(version)
 
 # Change dotenv file to production dotenv
 print("Copy .env.production to .env")
