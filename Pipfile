@@ -41,6 +41,7 @@ bandit = "*"
 pydocstyle = "*"
 dotenv-linter = "*"
 coverage = "*"
+gixy = "*"
 
 [requires]
 python_version = "3.7"
